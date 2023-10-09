@@ -1,0 +1,14 @@
+<header>
+  <a href="/">Accueil</a>
+</header>
+<div class="searchContainer">
+  <form *[(ngSubmit)]="onSubmit()">
+    <input type="text" name="search" *[(ngModel)]="search" />
+  </form>
+</div>
+<div class="searchResultContainer">
+  <app-delivery-person-card
+    *ngFor="let item of DeliveryPersons"
+    [deliveryPerson]="item"
+  ></app-delivery-person-card>
+</div>

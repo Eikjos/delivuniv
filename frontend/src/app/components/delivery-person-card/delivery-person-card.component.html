@@ -1,0 +1,4 @@
+<h3>Description du livreur</h3>
+<p>{{ deliveryPerson.firstname }} {{ deliveryPerson.lastname }}</p>
+<p *ngIf="deliveryPerson.isAvailable">Ce livreur est disponible</p>
+<p *ngIf="!deliveryPerson.isAvailable">Ce livreur n'est pas disponible</p>
