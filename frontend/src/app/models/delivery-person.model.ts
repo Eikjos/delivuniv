@@ -1,6 +1,6 @@
 export interface DeliveryPerson {
-  firstname: string;
-  lastname: string;
-  isAvailable: boolean;
-  createdDate: Date;
+  id: number;
+  name: string;
+  available: boolean;
+  createdAt: Date;
 }

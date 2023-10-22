@@ -1,7 +1,8 @@
-package fr.univrouen.delivuniv.deliveryperson;
+package fr.univrouen.delivuniv.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
 
@@ -14,7 +15,8 @@ public class DeliveryPersonEntity {
     @GeneratedValue
     private Long id;
     private String name;
-    private boolean isAvailable;
+    private boolean available;
     @Column(nullable = false, updatable = false)
+    @CreationTimestamp
     private Instant createdAt;
 }

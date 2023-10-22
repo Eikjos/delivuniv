@@ -1,0 +1,8 @@
+<div *ngIf="isAvailable" class="flex flex-row items-center gap-x-2">
+   <div class="animate-ping-slow w-2 h-2 bg-green-600 rounded-full"></div>
+   <p>Disponible</p>
+</div>
+<div *ngIf="!isAvailable" class="flex flex-row items-center gap-x-2">
+    <div class="animate-ping-slow w-2 h-2 bg-red-500 rounded-full"></div>
+    <p>Indisponible</p>
+</div>

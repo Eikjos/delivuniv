@@ -1,0 +1,14 @@
+<div class="flex flex-row items-center" >
+  <div (click)='onChange()'
+  class='relative flex items-center flex-start w-10 h-4 rounded-full transition-colors duration-300'
+  [ngClass]="available ? 'bg-green-800' : 'bg-red-800'">
+    <span
+      class='inline-block w-5 h-5 rounded-full transition-transform duration-300 ease-in-out shadow-md transform ring-0'
+      [ngClass]="available ? 'translate-x-6 bg-green-500' : '-translate-x-1 bg-red-500'"></span>
+</div>
+  <input type="checkbox" class="hidden" [(ngModel)]="available" (ngModelChange)="onChangeCheckbox()" />
+  <span class="ml-5">
+    {{available ? 'Disponible' : 'Indisponible'}}
+  </span>
+</div>
+

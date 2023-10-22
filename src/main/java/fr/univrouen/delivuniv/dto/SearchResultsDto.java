@@ -15,8 +15,8 @@ public class SearchResultsDto<T> {
     private int page;
     private int pageCount;
 
-    public static <E> SearchResultsDto<E> from(Page<E> page) {
-        return SearchResultsDto.<E>builder()
+    public static <T> SearchResultsDto<T> from(Page<T> page) {
+        return SearchResultsDto.<T>builder()
                 .data(page.toList())
                 .itemsPerPage(page.getNumberOfElements())
                 .itemCount(page.getTotalElements())

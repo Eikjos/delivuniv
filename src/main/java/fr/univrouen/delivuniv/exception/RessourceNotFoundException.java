@@ -1,4 +1,4 @@
-package fr.univrouen.delivuniv.exeption;
+package fr.univrouen.delivuniv.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

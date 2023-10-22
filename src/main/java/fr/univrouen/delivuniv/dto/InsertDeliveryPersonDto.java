@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class InsertDeliveryPersonDto {
     private String name;
-    private boolean isAvailable;
+    private boolean available;
 }

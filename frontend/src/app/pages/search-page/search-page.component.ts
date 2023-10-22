@@ -1,89 +1,136 @@
 import { DeliveryPersonService } from 'src/app/services/delivery-person.service';
 import { DeliveryPerson } from './../../models/delivery-person.model';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-search-page',
   templateUrl: './search-page.component.html',
-  styleUrls: ['./search-page.component.css'],
 })
-export class SearchPageComponent {
+export class SearchPageComponent implements OnInit {
   search!: string;
-  DeliveryPersons!: DeliveryPerson[];
+  deliveryPersons!: DeliveryPerson[];
   page!: number;
   pageSize!: number;
   isAvailable!: boolean;
-  order!: 0 | 1;
+  order!: 'ORDER_BY_CREATED_DATE_ASC' | 'ORDER_BY_CREATED_DATE_DESC';
+  nbPage!: Array<number>;
+  nbItems!: number;
 
   constructor(private service: DeliveryPersonService) {}
 
   ngOnInit(): void {
-    this.DeliveryPersons = this.service.search('', 1, 10, true, 0).person;
-    this.page = 1;
-    this.pageSize = 10;
+    this.search = '';
+    this.page = 0;
     this.isAvailable = true;
-    this.order = 0;
+    this.pageSize = 10;
+    this.order = 'ORDER_BY_CREATED_DATE_ASC';
+    this.deliveryPersons = [];
+    this.service
+      .search(
+        this.search,
+        this.page,
+        this.pageSize,
+        this.isAvailable,
+        this.order
+      )
+      .subscribe((items) => {
+        this.deliveryPersons = items.data;
+        this.nbItems = items.itemCount;
+        this.nbPage = Array(items.pageCount)
+          .fill(1)
+          .map((x, i) => i + 1);
+      });
   }
 
   onSubmit(): void {
-    var result = this.service.search(
-      this.search,
-      1,
-      10,
-      this.isAvailable,
-      this.order
-    );
-    this.DeliveryPersons = result.person;
-    this.page = 1;
+    this.service
+      .search(this.search, 0, 10, true, 'ORDER_BY_CREATED_DATE_ASC')
+      .subscribe((items) => {
+        this.deliveryPersons = items.data;
+        this.nbItems = items.itemCount;
+        this.nbPage = Array(items.pageCount)
+          .fill(1)
+          .map((x, i) => i + 1);
+      });
+    this.isAvailable = true;
+    this.page = 0;
     this.pageSize = 10;
+    this.order = 'ORDER_BY_CREATED_DATE_ASC';
   }
 
-  onChangePageSize(newValue: number): void {
-    var result = this.service.search(
-      this.search,
-      1,
-      newValue,
-      this.isAvailable,
-      this.order
-    );
-    this.DeliveryPersons = result.person;
-    this.page = 1;
-    this.pageSize = newValue;
+  onChangePageSize(): void {
+    this.page = 0;
+    this.service
+      .search(
+        this.search,
+        this.page,
+        this.pageSize,
+        this.isAvailable,
+        this.order
+      )
+      .subscribe((items) => {
+        this.deliveryPersons = items.data;
+        this.nbItems = items.itemCount;
+        this.nbPage = this.nbPage = Array(items.pageCount)
+          .fill(1)
+          .map((x, i) => i + 1);
+      });
   }
   onChangePage(newValue: number): void {
-    var result = this.service.search(
-      this.search,
-      newValue,
-      this.pageSize,
-      this.isAvailable,
-      this.order
-    );
-    this.DeliveryPersons = result.person;
     this.page = newValue;
+    this.service
+      .search(
+        this.search,
+        this.page,
+        this.pageSize,
+        this.isAvailable,
+        this.order
+      )
+      .subscribe((items) => {
+        this.deliveryPersons = items.data;
+        this.nbItems = items.itemCount;
+        this.nbPage = this.nbPage = Array(items.pageCount)
+          .fill(1)
+          .map((x, i) => i + 1);
+      });
   }
 
-  onChangeFilterOrder(newValue: 0 | 1): void {
-    var result = this.service.search(
-      this.search,
-      1,
-      this.pageSize,
-      this.isAvailable,
-      newValue
-    );
-    this.DeliveryPersons = result.person;
-    this.page = 1;
-    this.order = newValue;
+  onChangeFilterOrder(): void {
+    this.page = 0;
+    this.service
+      .search(
+        this.search,
+        this.page,
+        this.pageSize,
+        this.isAvailable,
+        this.order
+      )
+      .subscribe((items) => {
+        this.deliveryPersons = items.data;
+        this.nbItems = items.itemCount;
+        this.nbPage = this.nbPage = Array(items.pageCount)
+          .fill(1)
+          .map((x, i) => i + 1);
+      });
   }
-  onChangeIsAvailable(newValue: boolean): void {
-    var result = this.service.search(
-      this.search,
-      1,
-      this.pageSize,
-      newValue,
-      this.order
-    );
-    this.DeliveryPersons = result.person;
-    this.page = 1;
-    this.isAvailable = newValue;
+
+  onChangeIsAvailable(): void {
+    this.page = 0;
+    this.service
+      .search(
+        this.search,
+        this.page,
+        this.pageSize,
+        this.isAvailable,
+        this.order
+      )
+      .subscribe((items) => {
+        this.deliveryPersons = items.data;
+        this.nbItems = items.itemCount;
+        this.nbPage = this.nbPage = Array(items.pageCount)
+          .fill(1)
+          .map((x, i) => i + 1);
+      });
   }
 }

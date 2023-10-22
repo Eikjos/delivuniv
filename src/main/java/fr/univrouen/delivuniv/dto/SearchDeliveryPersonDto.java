@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class SearchDeliveryPersonDto {
     private String search;
-    private boolean isAvailable;
+    private boolean available;
     private Integer itemsPerPage;
     private Integer page;
     private SearchOrderEnum order;
