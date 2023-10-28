@@ -34,16 +34,46 @@ public class DeliveryPersonService {
         if (model.getPage() == null) model.setPage(0);
         if (model.getSearch() == null) model.setSearch("");
         var pageable = Pageable.ofSize(model.getItemsPerPage()).withPage(model.getPage());
-        if (model.getOrder() == SearchOrderEnum.ORDER_BY_CREATED_DATE_DESC) {
-            return SearchResultsDto.from(deliveryPersonRepository.findAllByNameContainsIgnoreCaseAndAvailableOrderByCreatedAtDesc(model.getSearch(), model.isAvailable(), pageable)
+        if (model.getStartDate() == null && model.getEndDate() == null) {
+            if (model.getOrder() == SearchOrderEnum.ORDER_BY_CREATED_DATE_DESC) {
+                return SearchResultsDto.from(deliveryPersonRepository.findAllByNameContainsIgnoreCaseAndAvailableOrderByCreatedAtDesc(model.getSearch(), model.isAvailable(), pageable)
+                        .map(deliveryPerson-> mapper.map(deliveryPerson, DeliveryPersonDto.class)));
+            }
+            return SearchResultsDto.from(deliveryPersonRepository.
+                    findAllByNameContainsIgnoreCaseAndAvailableOrderByCreatedAt(model.getSearch(),
+                            model.isAvailable(),
+                            pageable)
+                    .map(deliveryPerson -> mapper.map(deliveryPerson, DeliveryPersonDto.class)));
+        } else if (model.getStartDate() == null && model.getEndDate() != null) {
+            if (model.getOrder() == SearchOrderEnum.ORDER_BY_CREATED_DATE_DESC) {
+                return SearchResultsDto.from(deliveryPersonRepository.findAllByNameContainsIgnoreCaseAndAvailableAndCreatedAtIsBeforeOrderByCreatedAtDesc(model.getSearch(), model.isAvailable(), model.getEndDate(), pageable)
+                        .map(deliveryPerson-> mapper.map(deliveryPerson, DeliveryPersonDto.class)));
+            }
+            return SearchResultsDto.from(deliveryPersonRepository.
+                    findAllByNameContainsIgnoreCaseAndAvailableAndCreatedAtIsBeforeOrderByCreatedAt(model.getSearch(),
+                            model.isAvailable(),
+                            model.getEndDate(),
+                            pageable)
+                    .map(deliveryPerson -> mapper.map(deliveryPerson, DeliveryPersonDto.class)));
+        } else if (model.getStartDate() != null && model.getEndDate() == null) {
+            if (model.getOrder() == SearchOrderEnum.ORDER_BY_CREATED_DATE_DESC) {
+                return SearchResultsDto.from(deliveryPersonRepository.findAllByNameContainsIgnoreCaseAndAvailableAndCreatedAtIsAfterOrderByCreatedAtDesc(model.getSearch(), model.isAvailable(), model.getStartDate(), pageable)
+                        .map(deliveryPerson-> mapper.map(deliveryPerson, DeliveryPersonDto.class)));
+            }
+            return SearchResultsDto.from(deliveryPersonRepository.
+                    findAllByNameContainsIgnoreCaseAndAvailableAndCreatedAtIsAfterOrderByCreatedAt(model.getSearch(),
+                            model.isAvailable(),
+                            model.getStartDate(),
+                            pageable)
+                    .map(deliveryPerson -> mapper.map(deliveryPerson, DeliveryPersonDto.class)));
+        } else {
+            if (model.getOrder() == SearchOrderEnum.ORDER_BY_CREATED_DATE_DESC) {
+                return SearchResultsDto.from(deliveryPersonRepository.findAllByNameContainsIgnoreCaseAndAvailableAndCreatedAtIsBetweenOrderByCreatedAtDesc(model.getSearch(), model.isAvailable(), model.getStartDate(), model.getEndDate(), pageable)
+                        .map(deliveryPerson-> mapper.map(deliveryPerson, DeliveryPersonDto.class)));
+            }
+            return SearchResultsDto.from(deliveryPersonRepository.findAllByNameContainsIgnoreCaseAndAvailableAndCreatedAtIsBetweenOrderByCreatedAt(model.getSearch(), model.isAvailable(), model.getStartDate(), model.getEndDate(), pageable)
                     .map(deliveryPerson-> mapper.map(deliveryPerson, DeliveryPersonDto.class)));
         }
-        return SearchResultsDto.from(deliveryPersonRepository.
-                findAllByNameContainsIgnoreCaseAndAvailableOrderByCreatedAt(model.getSearch(),
-                        model.isAvailable(),
-                        pageable)
-                .map(deliveryPerson -> mapper.map(deliveryPerson, DeliveryPersonDto.class)));
-
     }
     public DeliveryPersonDto update(Long id, InsertDeliveryPersonDto model)  {
             var deliveryPersonEntity = deliveryPersonRepository.findById(id);

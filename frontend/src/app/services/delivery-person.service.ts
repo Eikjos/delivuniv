@@ -15,17 +15,56 @@ export class DeliveryPersonService {
     page: number,
     pageSize: number,
     isAvailable: boolean,
-    orderResult: 'ORDER_BY_CREATED_DATE_ASC' | 'ORDER_BY_CREATED_DATE_DESC'
-  ): Observable<SearchDeliveryPerson> =>
-    this.http.get<SearchDeliveryPerson>('delivery-person/search', {
-      params: {
-        search,
-        page,
-        itemsPerPage: pageSize,
-        available: isAvailable,
-        order: orderResult,
-      },
-    });
+    orderResult: 'ORDER_BY_CREATED_DATE_ASC' | 'ORDER_BY_CREATED_DATE_DESC',
+    startDate: string | null,
+    endDate: string | null
+  ): Observable<SearchDeliveryPerson> => {
+    if (startDate != null && endDate != null) {
+      return this.http.get<SearchDeliveryPerson>('delivery-person/search', {
+        params: {
+          search,
+          page,
+          itemsPerPage: pageSize,
+          available: isAvailable,
+          order: orderResult,
+          startDate,
+          endDate,
+        },
+      });
+    } else if (startDate == null && endDate != null) {
+      return this.http.get<SearchDeliveryPerson>('delivery-person/search', {
+        params: {
+          search,
+          page,
+          itemsPerPage: pageSize,
+          available: isAvailable,
+          order: orderResult,
+          endDate,
+        },
+      });
+    } else if (startDate != null && endDate == null) {
+      return this.http.get<SearchDeliveryPerson>('delivery-person/search', {
+        params: {
+          search,
+          page,
+          itemsPerPage: pageSize,
+          available: isAvailable,
+          order: orderResult,
+          startDate,
+        },
+      });
+    } else {
+      return this.http.get<SearchDeliveryPerson>('delivery-person/search', {
+        params: {
+          search,
+          page,
+          itemsPerPage: pageSize,
+          available: isAvailable,
+          order: orderResult,
+        },
+      });
+    }
+  };
 
   getById = (id: number): Observable<DeliveryPerson> =>
     this.http.get<DeliveryPerson>('delivery-person/' + id);

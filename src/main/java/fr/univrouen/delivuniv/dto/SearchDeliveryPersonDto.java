@@ -3,6 +3,10 @@ package fr.univrouen.delivuniv.dto;
 import fr.univrouen.delivuniv.constant.SearchOrderEnum;
 import lombok.Builder;
 import lombok.Data;
+
+import java.time.Instant;
+import java.util.Date;
+
 @Builder
 @Data
 public class SearchDeliveryPersonDto {
@@ -11,4 +15,6 @@ public class SearchDeliveryPersonDto {
     private Integer itemsPerPage;
     private Integer page;
     private SearchOrderEnum order;
+    private Instant startDate;
+    private Instant endDate;
 }

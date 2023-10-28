@@ -7,7 +7,7 @@
   <form class="mt-10 flex flex-col justify-center items-center" (ngSubmit)="onSubmit()" [formGroup]="form">
     <div>
       <label for="name">Nom : </label>
-      <input type="text" name="name" formControlName="name"
+      <input type="text" name="name" formControlName="name" [(ngModel)]="deliveryPerson.name"
         class="border-2 border-gray-500 outline-none p-2 rounded-md my-3 " required/>
         <div *ngIf="nameControl.invalid && (submitted || (nameControl.dirty || nameControl.touched))"
           class="alert alert-danger">

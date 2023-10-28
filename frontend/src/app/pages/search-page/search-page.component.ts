@@ -13,6 +13,8 @@ export class SearchPageComponent implements OnInit {
   page!: number;
   pageSize!: number;
   isAvailable!: boolean;
+  startDate!: Date | null;
+  endDate!: Date | null;
   order!: 'ORDER_BY_CREATED_DATE_ASC' | 'ORDER_BY_CREATED_DATE_DESC';
   nbPage!: Array<number>;
   nbItems!: number;
@@ -32,7 +34,9 @@ export class SearchPageComponent implements OnInit {
         this.page,
         this.pageSize,
         this.isAvailable,
-        this.order
+        this.order,
+        this.startDate ? new Date(this.startDate).toUTCString() : null,
+        this.endDate ? new Date(this.endDate).toUTCString() : null
       )
       .subscribe((items) => {
         this.deliveryPersons = items.data;
@@ -43,9 +47,25 @@ export class SearchPageComponent implements OnInit {
       });
   }
 
+  onFocus(evt: any): void {
+    evt.target.type = 'date';
+    if ('showPicker' in HTMLInputElement.prototype) {
+      try {
+        evt.target.showPicker();
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+
+  onBlur(evt: any): void {
+    if (!evt.target.value) {
+      evt.target.type = 'text';
+    }
+  }
   onSubmit(): void {
     this.service
-      .search(this.search, 0, 10, true, 'ORDER_BY_CREATED_DATE_ASC')
+      .search(this.search, 0, 10, true, 'ORDER_BY_CREATED_DATE_ASC', '', '')
       .subscribe((items) => {
         this.deliveryPersons = items.data;
         this.nbItems = items.itemCount;
@@ -57,6 +77,8 @@ export class SearchPageComponent implements OnInit {
     this.page = 0;
     this.pageSize = 10;
     this.order = 'ORDER_BY_CREATED_DATE_ASC';
+    this.startDate = null;
+    this.endDate = null;
   }
 
   onChangePageSize(): void {
@@ -67,7 +89,9 @@ export class SearchPageComponent implements OnInit {
         this.page,
         this.pageSize,
         this.isAvailable,
-        this.order
+        this.order,
+        this.startDate ? new Date(this.startDate).toISOString() : null,
+        this.endDate ? new Date(this.endDate).toISOString() : null
       )
       .subscribe((items) => {
         this.deliveryPersons = items.data;
@@ -85,7 +109,9 @@ export class SearchPageComponent implements OnInit {
         this.page,
         this.pageSize,
         this.isAvailable,
-        this.order
+        this.order,
+        this.startDate ? new Date(this.startDate).toISOString() : null,
+        this.endDate ? new Date(this.endDate).toISOString() : null
       )
       .subscribe((items) => {
         this.deliveryPersons = items.data;
@@ -104,7 +130,9 @@ export class SearchPageComponent implements OnInit {
         this.page,
         this.pageSize,
         this.isAvailable,
-        this.order
+        this.order,
+        this.startDate ? new Date(this.startDate).toISOString() : '',
+        this.endDate ? new Date(this.endDate).toISOString() : ''
       )
       .subscribe((items) => {
         this.deliveryPersons = items.data;
@@ -123,7 +151,51 @@ export class SearchPageComponent implements OnInit {
         this.page,
         this.pageSize,
         this.isAvailable,
-        this.order
+        this.order,
+        this.startDate ? new Date(this.startDate).toISOString() : null,
+        this.endDate ? new Date(this.endDate).toISOString() : null
+      )
+      .subscribe((items) => {
+        this.deliveryPersons = items.data;
+        this.nbItems = items.itemCount;
+        this.nbPage = this.nbPage = Array(items.pageCount)
+          .fill(1)
+          .map((x, i) => i + 1);
+      });
+  }
+
+  onChangeStartDate(): void {
+    this.page = 0;
+    this.service
+      .search(
+        this.search,
+        this.page,
+        this.pageSize,
+        this.isAvailable,
+        this.order,
+        this.startDate ? new Date(this.startDate).toISOString() : null,
+        this.endDate ? new Date(this.endDate).toISOString() : null
+      )
+      .subscribe((items) => {
+        this.deliveryPersons = items.data;
+        this.nbItems = items.itemCount;
+        this.nbPage = this.nbPage = Array(items.pageCount)
+          .fill(1)
+          .map((x, i) => i + 1);
+      });
+  }
+
+  onChangeEndDate(): void {
+    this.page = 0;
+    this.service
+      .search(
+        this.search,
+        this.page,
+        this.pageSize,
+        this.isAvailable,
+        this.order,
+        this.startDate ? new Date(this.startDate).toISOString() : null,
+        this.endDate ? new Date(this.endDate).toISOString() : null
       )
       .subscribe((items) => {
         this.deliveryPersons = items.data;

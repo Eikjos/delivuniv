@@ -18,6 +18,7 @@ import { UpdateDeliveryPersonPageComponent } from 'src/app/pages/update-delivery
 import { ToggleButtonComponent } from 'src/app/components/toggle-button/toggle-button.component';
 import { InsertDeliveryPersonComponent } from 'src/app/pages/insert-delivery-person-page/insert-delivery-person-page.component';
 import { LoadingComponent } from 'src/app/components/loading/loading.component';
+// import { InputMaskModule } from 'primeng/inputmask';
 
 registerLocaleData(localeFr, 'fr');
 @NgModule({
@@ -32,6 +33,7 @@ registerLocaleData(localeFr, 'fr');
     UpdateDeliveryPersonPageComponent,
     InsertDeliveryPersonComponent,
     LoadingComponent,
+    //InputMaskModule,
   ],
   imports: [
     BrowserModule,

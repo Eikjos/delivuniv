@@ -30,8 +30,11 @@ export class InsertDeliveryPersonComponent implements OnInit {
   }
 
   onSubmit(): void {
+    console.log('hello');
+    console.log(this.name);
     this.submitted = true;
     if (this.name != '' && this.name != null) {
+      console.log('cououc');
       this.service
         .create(this.form.value.name, this.available)
         .subscribe((item) => {

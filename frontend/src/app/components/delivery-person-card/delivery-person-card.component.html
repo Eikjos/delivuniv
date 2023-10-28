@@ -3,7 +3,7 @@
     <p>{{ deliveryPerson.name }}</p>
     <div class="flex flex-row justify-between items-center">
       <app-ping-available [isAvailable]="deliveryPerson.available"></app-ping-available>
-      <p>{{deliveryPerson.createdAt | date : 'EEEE d MMMM y'}}</p>
+      <p>{{deliveryPerson.createdAt | date : 'd MMMM y'}}</p>
     </div>
   </div>
 </a>  
