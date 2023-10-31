@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DeliveryPersonCardComponent } from './components/delivery-person-card/delivery-person-card.component';
 import { SearchPageComponent } from './pages/search-page/search-page.component';
-import { environment } from 'src/environment';
+import { environment } from 'src/environments/environment';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { baseUrlInterceptor } from 'src/baseUrlInterceptor';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
