@@ -1,0 +1,25 @@
+<app-header></app-header>
+<div *ngIf="deliveryPerson">
+  <div class="float-left mt-5 ml-5">
+    <button class="bg-[#ffaa33] p-2 rounded-lg mt-3 px-4" (click)="onBack()">Retour</button>
+  </div>
+  <h2 class="text-2xl text-center">Edition du livreur</h2>
+  <form class="mt-10 flex flex-col justify-center items-center" (ngSubmit)="onSubmit()" [formGroup]="form">
+    <div>
+      <label for="name">Nom : </label>
+      <input type="text" name="name" formControlName="name" [(ngModel)]="deliveryPerson.name"
+        class="border-2 border-gray-500 outline-none p-2 rounded-md my-3 " required/>
+        <div *ngIf="nameControl.invalid && (submitted || (nameControl.dirty || nameControl.touched))"
+          class="alert alert-danger">
+          <div *ngIf="nameControl.errors?.['required']" class="text-red-700 text-center ml-5 mb-2">
+            Nom du livreur est requis
+          </div>
+        </div>
+    </div>
+    <app-toggle-button (onChangeParent)="onChange($event)" [available]="deliveryPerson.available"></app-toggle-button>
+    <button type="submit" class="bg-[#ffaa33] p-2 rounded-lg mt-3 px-4">Éditer</button>
+  </form>
+</div>
+<div *ngIf="!deliveryPerson">
+  <app-loader></app-loader>
+</div>

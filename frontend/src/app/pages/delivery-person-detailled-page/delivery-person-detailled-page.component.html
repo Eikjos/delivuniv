@@ -1,0 +1,18 @@
+<app-header></app-header>
+<h2 class="text-2xl text-center mt-5">Affiche du livreur</h2>
+<div class="float-left mt-5 ml-5">
+  <button class="bg-[#ffaa33] p-2 rounded-lg mt-3 px-4" (click)="onBack()">Retour</button>
+</div>
+<div *ngIf="deliveryPerson" class="mx-auto mt-10 w-40">
+  <p class="text-center text-xl">{{deliveryPerson.name}}</p>
+  <div class="mx-auto w-28">
+    <app-ping-available [isAvailable]="deliveryPerson.available"></app-ping-available>
+  </div>
+  <div class="flex flex-row justify-center items-center mt-10 gap-x-20">
+    <button class="rounded-lg bg-red-500 text-white p-3" (click)="delete()">Supprimer</button>
+    <a href="/delivery-person/{{deliveryPerson.id}}/update"><button class="rounded-lg bg-blue-500 text-white p-3">Editer</button></a>
+  </div>
+</div>
+<div *ngIf="!deliveryPerson">
+  <app-loader></app-loader>
+</div>

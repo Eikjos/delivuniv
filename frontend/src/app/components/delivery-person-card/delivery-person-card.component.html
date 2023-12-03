@@ -1,0 +1,9 @@
+<a href="/delivery-person/{{deliveryPerson.id}}">
+  <div class="rounded-lg shadow-2xl p-5 hover:bg-[#f5bb69]">
+    <p>{{ deliveryPerson.name }}</p>
+    <div class="flex flex-row justify-between items-center">
+      <app-ping-available [isAvailable]="deliveryPerson.available"></app-ping-available>
+      <p>{{deliveryPerson.createdAt | date : 'd MMMM y'}}</p>
+    </div>
+  </div>
+</a>  

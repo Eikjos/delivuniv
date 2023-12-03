@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  database:
+    container_name: delivuniv-database
+    image: postgres:alpine
+    environment:
+      - POSTGRES_USER=delivuniv
+      - POSTGRES_PASSWORD=delivuniv2776
+      - POSTGRES_DB=delivuniv
+    volumes:
+      - data:/var/lib/postgresql/data
+  backend:
+    container_name: delivuniv-api
+    depends_on:
+      - database
+    build:
+      context: .
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://delivuniv-database/delivuniv
+      - SPRING_DATASOURCE_USERNAME=delivuniv
+      - SPRING_DATASOURCE_PASSWORD=delivuniv2776
+  frontend:
+    container_name: delivuniv-frontend
+    depends_on:
+      - backend
+    build:
+      context: ./frontend
+    ports:
+      - "4200:80"
+
+volumes:
+  data:

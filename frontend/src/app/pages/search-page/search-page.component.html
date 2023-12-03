@@ -1,0 +1,127 @@
+<app-header></app-header>
+<div class="float-right mt-5 mr-5">
+  <a href="delivery-person/create"
+    ><button class="bg-[#ffaa33] rounded-lg px-4 py-2">
+      Ajouter un livreur
+    </button></a
+  >
+</div>
+<div>
+  <form
+    (ngSubmit)="onSubmit()"
+    (keyup.enter)="onSubmit()"
+    class="flex align-center justify-center mt-5"
+  >
+    <input
+      type="text"
+      name="search"
+      placeholder="Taper le nom d'un livreur"
+      [(ngModel)]="search"
+      class="border-2 border-gray-500 w-[30%] outline-none p-2 rounded-md ml-52"
+    />
+  </form>
+</div>
+<div class="searchResultContainer">
+  <div class="h-[calc(100vh-200px)]">
+    <aside
+      class="float-left w-[25%] border-2 border-[#ffaa33] p-5 rounded-lg mx-4"
+    >
+      <div>
+        <h2 class="text-center text-2xl text-[#ffaa33] mb-5">Les filtres</h2>
+        <div>
+          <h6 class="text-sm">Date de création</h6>
+          <div class="flex flex-row my-2 gap-x-5">
+            <div class="flex flex-col w-[45%]">
+              <label class="text-xs">Minimum</label>
+              <input
+                placeholder="Minimum"
+                [(ngModel)]="startDate"
+                (ngModelChange)="onChangeStartDate()"
+                class="border-[#ffaa33] border-2 p-1 rounded-md h-10"
+                type="text"
+                (focus)="onFocus($event)"
+                (blur)="onBlur($event)"
+              />
+            </div>
+            <div class="flex flex-col w-[45%]">
+              <label class="text-xs">Maximum</label>
+              <input
+                placeholder="Maximum"
+                [(ngModel)]="endDate"
+                (ngModelChange)="onChangeEndDate()"
+                class="border-[#ffaa33] border-2 p-1 rounded-md h-10"
+                type="text"
+                (focus)="onFocus($event)"
+                (blur)="onBlur($event)"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-row items-center gap-x-3">
+          <input
+            type="checkbox"
+            [(ngModel)]="isAvailable"
+            (ngModelChange)="onChangeIsAvailable()"
+            class="accent-[#ffaa33] w-4 h-4"
+          />
+          <p>Livreurs disponibles</p>
+        </div>
+      </div>
+    </aside>
+    <div class="flex flex-row gap-x-5 my-10 justify-end mr-5 h-8">
+      <select
+        [(ngModel)]="order"
+        (ngModelChange)="onChangeFilterOrder()"
+        class="border-2 border-[#ffaa33] rounded-lg"
+      >
+        <option value="ORDER_BY_CREATED_DATE_ASC">
+          Date de création croissante
+        </option>
+        <option value="ORDER_BY_CREATED_DATE_DESC">
+          Date de création décroissante
+        </option>
+      </select>
+      <select
+        [(ngModel)]="pageSize"
+        (ngModelChange)="onChangePageSize()"
+        class="border-2 border-[#ffaa33] rounded-lg"
+      >
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="30">30</option>
+      </select>
+      <div class="flex flex-row gap-x-5">
+        <div *ngFor="let item of nbPage">
+          <div
+            *ngIf="item == page + 1"
+            class="bg-[#ffaa33] flex justify-center items-center w-8 h-8 rounded-full"
+          >
+            <p>{{ item }}</p>
+          </div>
+          <div
+            *ngIf="item != page + 1"
+            class="w-8 h-8 flex justify-center items-center"
+            (click)="onChangePage(item - 1)"
+          >
+            <p>{{ item }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      *ngIf="deliveryPersons.length"
+      class="grid grid-flow-row grid-cols-3 mx-10 gap-x-4 gap-y-10"
+    >
+      <app-delivery-person-card
+        *ngFor="let item of deliveryPersons"
+        [deliveryPerson]="item"
+      ></app-delivery-person-card>
+    </div>
+    <div
+      *ngIf="!deliveryPersons.length"
+      class="align-center flex h-[calc(100vh-250px)] justify-center"
+    >
+      <h3 class="m-auto">Il n'y a pas de résultat pour cette recherche</h3>
+    </div>
+  </div>
+</div>
