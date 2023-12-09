@@ -1,16 +1,16 @@
 package fr.univrouen.delivuniv.services;
 
-import fr.univrouen.delivuniv.constant.SearchOrderEnum;
-import fr.univrouen.delivuniv.dto.DeliveryPersonDto;
-import fr.univrouen.delivuniv.dto.InsertDeliveryPersonDto;
-import fr.univrouen.delivuniv.dto.SearchDeliveryPersonDto;
-import fr.univrouen.delivuniv.dto.SearchResultsDto;
+import fr.univrouen.delivuniv.dto.deliveryPerson.DeliveryPersonDto;
+import fr.univrouen.delivuniv.dto.deliveryPerson.InsertDeliveryPersonDto;
+import fr.univrouen.delivuniv.dto.deliveryPerson.SearchDeliveryPersonDto;
+import fr.univrouen.delivuniv.dto.deliveryPerson.SearchResultsDto;
 import fr.univrouen.delivuniv.entities.DeliveryPersonEntity;
 import fr.univrouen.delivuniv.exception.RessourceNotFoundException;
 import fr.univrouen.delivuniv.repositories.DeliveryPersonRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -35,53 +35,47 @@ public class DeliveryPersonService {
         if (model.getSearch() == null) model.setSearch("");
         var pageable = Pageable.ofSize(model.getItemsPerPage()).withPage(model.getPage());
         if (model.getStartDate() == null && model.getEndDate() == null) {
-            if (model.getOrder() == SearchOrderEnum.ORDER_BY_CREATED_DATE_DESC) {
-                return SearchResultsDto.from(deliveryPersonRepository.findAllByNameContainsIgnoreCaseAndAvailableOrderByCreatedAtDesc(model.getSearch(), model.isAvailable(), pageable)
-                        .map(deliveryPerson-> mapper.map(deliveryPerson, DeliveryPersonDto.class)));
+            if (model.getAsc() != null && model.getAsc() != "") {
+                return SearchResultsDto.from(deliveryPersonRepository.findAllByNameContainsIgnoreCaseAndAvailable(model.getSearch(), model.isAvailable(), pageable, Sort.by(Sort.Direction.ASC, model.getAsc()))
+                        .map(deliveryPerson -> mapper.map(deliveryPerson, DeliveryPersonDto.class)));
             }
-            return SearchResultsDto.from(deliveryPersonRepository.
-                    findAllByNameContainsIgnoreCaseAndAvailableOrderByCreatedAt(model.getSearch(),
-                            model.isAvailable(),
-                            pageable)
+            return SearchResultsDto.from(deliveryPersonRepository.findAllByNameContainsIgnoreCaseAndAvailable(model.getSearch(), model.isAvailable(), pageable, Sort.by(Sort.Direction.DESC, model.getDesc()))
                     .map(deliveryPerson -> mapper.map(deliveryPerson, DeliveryPersonDto.class)));
-        } else if (model.getStartDate() == null && model.getEndDate() != null) {
-            if (model.getOrder() == SearchOrderEnum.ORDER_BY_CREATED_DATE_DESC) {
-                return SearchResultsDto.from(deliveryPersonRepository.findAllByNameContainsIgnoreCaseAndAvailableAndCreatedAtIsBeforeOrderByCreatedAtDesc(model.getSearch(), model.isAvailable(), model.getEndDate(), pageable)
-                        .map(deliveryPerson-> mapper.map(deliveryPerson, DeliveryPersonDto.class)));
-            }
-            return SearchResultsDto.from(deliveryPersonRepository.
-                    findAllByNameContainsIgnoreCaseAndAvailableAndCreatedAtIsBeforeOrderByCreatedAt(model.getSearch(),
-                            model.isAvailable(),
-                            model.getEndDate(),
-                            pageable)
-                    .map(deliveryPerson -> mapper.map(deliveryPerson, DeliveryPersonDto.class)));
-        } else if (model.getStartDate() != null && model.getEndDate() == null) {
-            if (model.getOrder() == SearchOrderEnum.ORDER_BY_CREATED_DATE_DESC) {
-                return SearchResultsDto.from(deliveryPersonRepository.findAllByNameContainsIgnoreCaseAndAvailableAndCreatedAtIsAfterOrderByCreatedAtDesc(model.getSearch(), model.isAvailable(), model.getStartDate(), pageable)
-                        .map(deliveryPerson-> mapper.map(deliveryPerson, DeliveryPersonDto.class)));
-            }
-            return SearchResultsDto.from(deliveryPersonRepository.
-                    findAllByNameContainsIgnoreCaseAndAvailableAndCreatedAtIsAfterOrderByCreatedAt(model.getSearch(),
-                            model.isAvailable(),
-                            model.getStartDate(),
-                            pageable)
-                    .map(deliveryPerson -> mapper.map(deliveryPerson, DeliveryPersonDto.class)));
-        } else {
-            if (model.getOrder() == SearchOrderEnum.ORDER_BY_CREATED_DATE_DESC) {
-                return SearchResultsDto.from(deliveryPersonRepository.findAllByNameContainsIgnoreCaseAndAvailableAndCreatedAtIsBetweenOrderByCreatedAtDesc(model.getSearch(), model.isAvailable(), model.getStartDate(), model.getEndDate(), pageable)
-                        .map(deliveryPerson-> mapper.map(deliveryPerson, DeliveryPersonDto.class)));
-            }
-            return SearchResultsDto.from(deliveryPersonRepository.findAllByNameContainsIgnoreCaseAndAvailableAndCreatedAtIsBetweenOrderByCreatedAt(model.getSearch(), model.isAvailable(), model.getStartDate(), model.getEndDate(), pageable)
-                    .map(deliveryPerson-> mapper.map(deliveryPerson, DeliveryPersonDto.class)));
         }
+        if (model.getStartDate() == null && model.getEndDate() != null) {
+            if (model.getAsc() != null && model.getAsc() != "") {
+                return SearchResultsDto.from(deliveryPersonRepository.findAllByNameContainsIgnoreCaseAndAvailableAndCreatedAtIsBefore(model.getSearch(), model.isAvailable(), model.getStartDate(), pageable, Sort.by(Sort.Direction.ASC, model.getAsc()))
+                        .map(deliveryPerson -> mapper.map(deliveryPerson, DeliveryPersonDto.class)));
+            }
+            return SearchResultsDto.from(deliveryPersonRepository.findAllByNameContainsIgnoreCaseAndAvailableAndCreatedAtIsBefore(model.getSearch(), model.isAvailable(), model.getStartDate(), pageable, Sort.by(Sort.Direction.DESC, model.getDesc()))
+                    .map(deliveryPerson -> mapper.map(deliveryPerson, DeliveryPersonDto.class)));
+        }
+        if (model.getStartDate() != null && model.getEndDate() == null) {
+            if (model.getAsc() != null && model.getAsc() != "") {
+                return SearchResultsDto.from(deliveryPersonRepository.findAllByNameContainsIgnoreCaseAndAvailableAndCreatedAtIsAfter(model.getSearch(), model.isAvailable(), model.getStartDate(), pageable, Sort.by(Sort.Direction.ASC, model.getAsc()))
+                        .map(deliveryPerson -> mapper.map(deliveryPerson, DeliveryPersonDto.class)));
+            }
+            return SearchResultsDto.from(deliveryPersonRepository.findAllByNameContainsIgnoreCaseAndAvailableAndCreatedAtIsAfter(model.getSearch(), model.isAvailable(), model.getStartDate(), pageable, Sort.by(Sort.Direction.DESC, model.getDesc()))
+                    .map(deliveryPerson -> mapper.map(deliveryPerson, DeliveryPersonDto.class)));
+        }
+        if (model.getAsc() != null && model.getAsc() != "") {
+            return SearchResultsDto.from(deliveryPersonRepository.findAllByNameContainsIgnoreCaseAndAvailableAndCreatedAtIsBetween(model.getSearch(), model.isAvailable(), model.getStartDate(), model.getEndDate(), pageable, Sort.by(Sort.Direction.ASC, model.getAsc()))
+                    .map(deliveryPerson -> mapper.map(deliveryPerson, DeliveryPersonDto.class)));
+        }
+        return SearchResultsDto.from(deliveryPersonRepository.findAllByNameContainsIgnoreCaseAndAvailableAndCreatedAtIsBetween(model.getSearch(), model.isAvailable(), model.getStartDate(), model.getEndDate(), pageable, Sort.by(Sort.Direction.DESC, model.getDesc()))
+                .map(deliveryPerson -> mapper.map(deliveryPerson, DeliveryPersonDto.class)));
     }
     public DeliveryPersonDto update(Long id, InsertDeliveryPersonDto model)  {
-            var deliveryPersonEntity = deliveryPersonRepository.findById(id);
+        var deliveryPersonEntity = deliveryPersonRepository.findById(id);
         if (deliveryPersonEntity.isEmpty()) {
             throw new RessourceNotFoundException();
         }
-        deliveryPersonEntity.get().setName(model.getName());
-        deliveryPersonEntity.get().setAvailable(model.isAvailable());
+        if (model.getName() != null) {
+            deliveryPersonEntity.get().setName(model.getName());
+        }
+        if (model.getAvailable() != null) {
+            deliveryPersonEntity.get().setAvailable(model.getAvailable());
+        }
         return mapper.map(deliveryPersonRepository.save(deliveryPersonEntity.get()), DeliveryPersonDto.class);
 
     }

@@ -15,7 +15,7 @@ export class DeliveryPersonService {
     page: number,
     pageSize: number,
     isAvailable: boolean,
-    orderResult: 'ORDER_BY_CREATED_DATE_ASC' | 'ORDER_BY_CREATED_DATE_DESC',
+    orderResult: 'asc' | 'desc',
     startDate: string | null,
     endDate: string | null
   ): Observable<SearchDeliveryPerson> => {
@@ -26,7 +26,8 @@ export class DeliveryPersonService {
           page,
           itemsPerPage: pageSize,
           available: isAvailable,
-          order: orderResult,
+          asc: orderResult === 'asc' ? 'createdAt' : '',
+          desc: orderResult === 'desc' ? 'createdAt' : '',
           startDate,
           endDate,
         },

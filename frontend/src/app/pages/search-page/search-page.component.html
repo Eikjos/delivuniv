@@ -74,12 +74,8 @@
         (ngModelChange)="onChangeFilterOrder()"
         class="border-2 border-[#ffaa33] rounded-lg"
       >
-        <option value="ORDER_BY_CREATED_DATE_ASC">
-          Date de création croissante
-        </option>
-        <option value="ORDER_BY_CREATED_DATE_DESC">
-          Date de création décroissante
-        </option>
+        <option value="asc">Date de création croissante</option>
+        <option value="desc">Date de création décroissante</option>
       </select>
       <select
         [(ngModel)]="pageSize"

@@ -15,7 +15,7 @@ export class SearchPageComponent implements OnInit {
   isAvailable!: boolean;
   startDate!: Date | null;
   endDate!: Date | null;
-  order!: 'ORDER_BY_CREATED_DATE_ASC' | 'ORDER_BY_CREATED_DATE_DESC';
+  order!: 'asc' | 'desc';
   nbPage!: Array<number>;
   nbItems!: number;
 
@@ -26,7 +26,7 @@ export class SearchPageComponent implements OnInit {
     this.page = 0;
     this.isAvailable = true;
     this.pageSize = 10;
-    this.order = 'ORDER_BY_CREATED_DATE_ASC';
+    this.order = 'asc';
     this.deliveryPersons = [];
     this.service
       .search(
@@ -65,7 +65,7 @@ export class SearchPageComponent implements OnInit {
   }
   onSubmit(): void {
     this.service
-      .search(this.search, 0, 10, true, 'ORDER_BY_CREATED_DATE_ASC', '', '')
+      .search(this.search, 0, 10, true, 'asc', '', '')
       .subscribe((items) => {
         this.deliveryPersons = items.data;
         this.nbItems = items.itemCount;
@@ -76,7 +76,7 @@ export class SearchPageComponent implements OnInit {
     this.isAvailable = true;
     this.page = 0;
     this.pageSize = 10;
-    this.order = 'ORDER_BY_CREATED_DATE_ASC';
+    this.order = 'asc';
     this.startDate = null;
     this.endDate = null;
   }

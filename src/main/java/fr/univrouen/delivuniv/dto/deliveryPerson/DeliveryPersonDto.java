@@ -1,4 +1,4 @@
-package fr.univrouen.delivuniv.dto;
+package fr.univrouen.delivuniv.dto.deliveryPerson;
 
 import lombok.Data;
 
