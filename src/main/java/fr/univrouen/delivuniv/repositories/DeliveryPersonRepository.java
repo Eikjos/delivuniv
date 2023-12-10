@@ -15,5 +15,5 @@ public interface DeliveryPersonRepository extends CrudRepository<DeliveryPersonE
     Page<DeliveryPersonEntity> findAllByNameContainsIgnoreCaseAndAvailableAndCreatedAtIsBetween(String search, boolean available, Instant startInstant, Instant endInstant, Pageable pageable, Sort sort);
     Page<DeliveryPersonEntity> findAllByNameContainsIgnoreCaseAndAvailableAndCreatedAtIsAfter(String search, boolean available, Instant startInstant, Pageable pageable, Sort sort);
     Page<DeliveryPersonEntity> findAllByNameContainsIgnoreCaseAndAvailableAndCreatedAtIsBefore(String search, boolean available, Instant endInstant, Pageable pageable, Sort sort);
-    Page<DeliveryPersonEntity findAllByNameContainsIgnoreCaseAndAvailable(String search, boolean available, Pageable pageable, Sort sort);
+    Page<DeliveryPersonEntity> findAllByNameContainsIgnoreCaseAndAvailable(String search, boolean available, Pageable pageable, Sort sort);
 }

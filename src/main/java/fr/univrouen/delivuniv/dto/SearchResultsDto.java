@@ -1,4 +1,4 @@
-package fr.univrouen.delivuniv.dto.deliveryPerson;
+package fr.univrouen.delivuniv.dto;
 
 import java.util.List;
 import lombok.Builder;
