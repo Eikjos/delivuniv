@@ -1,5 +1,6 @@
 package fr.univrouen.delivuniv.controllers;
 
+import fr.univrouen.delivuniv.dto.SearchResultsDto;
 import fr.univrouen.delivuniv.dto.deliveryTour.DeliveryTourDto;
 import fr.univrouen.delivuniv.dto.deliveryTour.InsertDeliveryTourDto;
 import fr.univrouen.delivuniv.services.DeliveryTourService;
@@ -20,6 +21,19 @@ public class DeliveryTourController {
 
     private final DeliveryTourService deliveryTourService;
     private final ModelMapper mapper;
+
+    @GetMapping
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Return the result of the search for delivery tours"
+                    )
+            }
+    )
+    public ResponseEntity<SearchResultsDto<DeliveryTourDto>> getAll() {
+        return ResponseEntity.ok(null);
+    }
 
     @GetMapping("/{id}")
     @ApiResponses(

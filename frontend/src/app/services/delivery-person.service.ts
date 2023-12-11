@@ -20,7 +20,7 @@ export class DeliveryPersonService {
     endDate: string | null
   ): Observable<SearchDeliveryPerson> => {
     if (startDate != null && endDate != null) {
-      return this.http.get<SearchDeliveryPerson>('delivery-person/search', {
+      return this.http.get<SearchDeliveryPerson>('delivery-person', {
         params: {
           search,
           page,
@@ -33,7 +33,7 @@ export class DeliveryPersonService {
         },
       });
     } else if (startDate == null && endDate != null) {
-      return this.http.get<SearchDeliveryPerson>('delivery-person/search', {
+      return this.http.get<SearchDeliveryPerson>('delivery-person', {
         params: {
           search,
           page,
@@ -44,7 +44,7 @@ export class DeliveryPersonService {
         },
       });
     } else if (startDate != null && endDate == null) {
-      return this.http.get<SearchDeliveryPerson>('delivery-person/search', {
+      return this.http.get<SearchDeliveryPerson>('delivery-person', {
         params: {
           search,
           page,
@@ -55,7 +55,7 @@ export class DeliveryPersonService {
         },
       });
     } else {
-      return this.http.get<SearchDeliveryPerson>('delivery-person/search', {
+      return this.http.get<SearchDeliveryPerson>('delivery-person', {
         params: {
           search,
           page,

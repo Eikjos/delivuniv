@@ -46,7 +46,7 @@ public class DeliveryPersonController {
         return ResponseEntity.ok(mapper.map(deliveryPerson, DeliveryPersonDto.class));
     }
 
-    @GetMapping("/search")
+    @GetMapping
     @ApiResponses(
             value = {
                     @ApiResponse(
