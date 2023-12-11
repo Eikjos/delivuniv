@@ -1,6 +1,7 @@
 package fr.univrouen.delivuniv.controllers;
 
 import fr.univrouen.delivuniv.dto.deliveryTour.DeliveryTourDto;
+import fr.univrouen.delivuniv.dto.deliveryTour.SearchDeliveryTourDto;
 import fr.univrouen.delivuniv.services.DeliveryPersonService;
 import fr.univrouen.delivuniv.dto.deliveryPerson.DeliveryPersonDto;
 import fr.univrouen.delivuniv.dto.deliveryPerson.InsertDeliveryPersonDto;
@@ -126,13 +127,13 @@ public class DeliveryPersonController {
                     )
             }
     )
-    public ResponseEntity<List<DeliveryTourDto>> getByDeliveryPerson(@PathVariable Long id) {
+    public ResponseEntity<SearchResultsDto<DeliveryTourDto>> getByDeliveryPerson(@PathVariable Long id, SearchDeliveryTourDto model) {
         var deliveryPerson = deliveryPersonService.findById(id);
         if (deliveryPerson.isEmpty())
             return ResponseEntity.notFound().build();
 
-        var deliveryTours = deliveryTourService.findBAllyDeliveryPerson(id)
-                .stream().map(deliveryTour -> mapper.map(deliveryTour, DeliveryTourDto.class)).toList();
+        var deliveryTours = SearchResultsDto.from(deliveryTourService.findBAllyDeliveryPerson(id, model)
+                .map(deliveryTour -> mapper.map(deliveryTour, DeliveryTourDto.class)));
 
         return ResponseEntity.ok(deliveryTours);
     }

@@ -1,6 +1,7 @@
 package fr.univrouen.delivuniv.services;
 
 import fr.univrouen.delivuniv.dto.deliveryTour.InsertDeliveryTourDto;
+import fr.univrouen.delivuniv.dto.deliveryTour.SearchDeliveryTourDto;
 import fr.univrouen.delivuniv.entities.DeliveryPersonEntity;
 import fr.univrouen.delivuniv.entities.DeliveryTourEntity;
 import fr.univrouen.delivuniv.exception.DeliveryPersonHasAlreadyDeliveryTourException;
@@ -10,6 +11,8 @@ import fr.univrouen.delivuniv.repositories.DeliveryTourRepository;
 import jakarta.validation.Validator;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,8 +34,13 @@ public class DeliveryTourService {
     public Long countAllByDeliveryPerson(Long personId) {
         return deliveryTourRepository.countAllByDeliveryPerson_Id(personId);
     }
+    public Page<DeliveryTourEntity> findBAllyDeliveryPerson(Long personId, SearchDeliveryTourDto model) {
+        var pageable = Pageable.ofSize(model.getItemsPerPage()).withPage(model.getItemsPerPage());
+        return deliveryTourRepository.findAllByDeliveryPerson_IdAndStartDateAfter(personId,  model.getDate(), pageable);
+    }
+
     public List<DeliveryTourEntity> findBAllyDeliveryPerson(Long personId) {
-        return deliveryTourRepository.findAllByDeliveryPerson_Id(personId);
+        return deliveryTourRepository.findBAllyDeliveryPerson(personId);
     }
 
     public void delete(DeliveryTourEntity deliveryTour) {

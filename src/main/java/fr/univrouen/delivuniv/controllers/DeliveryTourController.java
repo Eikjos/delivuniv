@@ -3,6 +3,7 @@ package fr.univrouen.delivuniv.controllers;
 import fr.univrouen.delivuniv.dto.SearchResultsDto;
 import fr.univrouen.delivuniv.dto.deliveryTour.DeliveryTourDto;
 import fr.univrouen.delivuniv.dto.deliveryTour.InsertDeliveryTourDto;
+import fr.univrouen.delivuniv.dto.deliveryTour.SearchDeliveryTourDto;
 import fr.univrouen.delivuniv.services.DeliveryTourService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -31,7 +32,7 @@ public class DeliveryTourController {
                     )
             }
     )
-    public ResponseEntity<SearchResultsDto<DeliveryTourDto>> getAll() {
+    public ResponseEntity<SearchResultsDto<DeliveryTourDto>> search(SearchDeliveryTourDto model) {
         return ResponseEntity.ok(null);
     }
 
