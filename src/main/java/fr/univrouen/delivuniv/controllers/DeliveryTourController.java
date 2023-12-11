@@ -33,7 +33,9 @@ public class DeliveryTourController {
             }
     )
     public ResponseEntity<SearchResultsDto<DeliveryTourDto>> search(SearchDeliveryTourDto model) {
-        return ResponseEntity.ok(null);
+        var deliveryTours =  SearchResultsDto.from(deliveryTourService.findAll(model)
+                .map(deliveryTour -> mapper.map(deliveryTour, DeliveryTourDto.class)));
+        return ResponseEntity.ok(deliveryTours);
     }
 
     @GetMapping("/{id}")

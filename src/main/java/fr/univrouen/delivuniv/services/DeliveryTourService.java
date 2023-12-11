@@ -34,9 +34,17 @@ public class DeliveryTourService {
     public Long countAllByDeliveryPerson(Long personId) {
         return deliveryTourRepository.countAllByDeliveryPerson_Id(personId);
     }
-    public Page<DeliveryTourEntity> findBAllyDeliveryPerson(Long personId, SearchDeliveryTourDto model) {
+    public Page<DeliveryTourEntity> findAllyDeliveryPerson(Long personId, SearchDeliveryTourDto model) {
         var pageable = Pageable.ofSize(model.getItemsPerPage()).withPage(model.getItemsPerPage());
         return deliveryTourRepository.findAllByDeliveryPerson_IdAndStartDateAfter(personId,  model.getDate(), pageable);
+    }
+
+    public Page<DeliveryTourEntity> findAll(SearchDeliveryTourDto model) {
+        var pageable = Pageable.ofSize(model.getItemsPerPage()).withPage(model.getItemsPerPage());
+        if (model.getDate() == null) {
+            return deliveryTourRepository.findAll(pageable);
+        }
+        return deliveryTourRepository.findAllByStartDateAfter(model.getDate(), pageable);
     }
 
     public List<DeliveryTourEntity> findBAllyDeliveryPerson(Long personId) {

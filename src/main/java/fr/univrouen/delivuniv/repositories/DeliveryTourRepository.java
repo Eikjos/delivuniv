@@ -12,6 +12,7 @@ import java.util.List;
 
 public interface DeliveryTourRepository extends CrudRepository<DeliveryTourEntity, Long>, PagingAndSortingRepository<DeliveryTourEntity, Long> {
     Page<DeliveryTourEntity> findAllByDeliveryPerson_IdAndStartDateAfter(Long personId, Instant date, Pageable pageable);
+    Page<DeliveryTourEntity> findAllByStartDateAfter(Instant date, Pageable pageable);
     List<DeliveryTourEntity> findBAllyDeliveryPerson(Long personId);
     Long countAllByDeliveryPerson_Id(Long personId);
 }

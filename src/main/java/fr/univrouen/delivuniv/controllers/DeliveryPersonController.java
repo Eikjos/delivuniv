@@ -132,7 +132,7 @@ public class DeliveryPersonController {
         if (deliveryPerson.isEmpty())
             return ResponseEntity.notFound().build();
 
-        var deliveryTours = SearchResultsDto.from(deliveryTourService.findBAllyDeliveryPerson(id, model)
+        var deliveryTours = SearchResultsDto.from(deliveryTourService.findAllyDeliveryPerson(id, model)
                 .map(deliveryTour -> mapper.map(deliveryTour, DeliveryTourDto.class)));
 
         return ResponseEntity.ok(deliveryTours);
