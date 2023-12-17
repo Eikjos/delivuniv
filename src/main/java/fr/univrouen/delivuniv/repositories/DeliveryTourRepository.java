@@ -9,10 +9,12 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 
-public interface DeliveryTourRepository extends CrudRepository<DeliveryTourEntity, Long>, PagingAndSortingRepository<DeliveryTourEntity, Long> {
-    Page<DeliveryTourEntity> findAllByDeliveryPerson_IdAndStartDateAfter(Long personId, Instant date, Pageable pageable);
+public interface DeliveryTourRepository extends CrudRepository<DeliveryTourEntity, UUID>, PagingAndSortingRepository<DeliveryTourEntity, UUID> {
+    Page<DeliveryTourEntity> findAllByDeliveryPerson_IdAndStartDateAfter(UUID personId, Instant date, Pageable pageable);
     Page<DeliveryTourEntity> findAllByStartDateAfter(Instant date, Pageable pageable);
-    List<DeliveryTourEntity> findBAllyDeliveryPerson(Long personId);
-    Long countAllByDeliveryPerson_Id(Long personId);
+    Page<DeliveryTourEntity> findAllByDeliveryPerson_Id(UUID personId, Pageable pageable);
+    List<DeliveryTourEntity> findAllByDeliveryPerson_Id(UUID personId);
+    Long countAllByDeliveryPerson_Id(UUID personId);
 }

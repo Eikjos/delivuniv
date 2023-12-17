@@ -10,11 +10,14 @@ import jakarta.validation.Validator;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -23,7 +26,10 @@ public class DeliveryPersonService {
     private final ModelMapper mapper;
     private final Validator validator;
 
-    public Optional<DeliveryPersonEntity> findById(Long id) {
+    public List<DeliveryPersonEntity> findAll() {
+        return (List<DeliveryPersonEntity>) deliveryPersonRepository.findAll();
+    }
+    public Optional<DeliveryPersonEntity> findById(UUID id) {
         return deliveryPersonRepository.findById(id);
     }
 
@@ -37,31 +43,20 @@ public class DeliveryPersonService {
         if (model.getItemsPerPage() == null) model.setItemsPerPage(10);
         if (model.getPage() == null) model.setPage(0);
         if (model.getSearch() == null) model.setSearch("");
-        var pageable = Pageable.ofSize(model.getItemsPerPage()).withPage(model.getPage());
+        Sort sort = model.getAsc() != null && model.getAsc() != "" ? Sort.by(Sort.Direction.ASC, model.getAsc()) : (model.getDesc() != null && model.getDesc() != "" ? Sort.by(Sort.Direction.DESC, model.getDesc()) : null);
+        var pageable = PageRequest.of(model.getPage(), model.getItemsPerPage(), sort);
         if (model.getStartDate() == null && model.getEndDate() == null) {
-            if (model.getAsc() != null && model.getAsc() != "") {
-                return deliveryPersonRepository.findAllByNameContainsIgnoreCaseAndAvailable(model.getSearch(), model.isAvailable(), pageable, Sort.by(Sort.Direction.ASC, model.getAsc()));
-            }
-            return deliveryPersonRepository.findAllByNameContainsIgnoreCaseAndAvailable(model.getSearch(), model.isAvailable(), pageable, Sort.by(Sort.Direction.DESC, model.getDesc()));
+            return deliveryPersonRepository.findAllByNameContainsIgnoreCaseAndAvailable(model.getSearch(), model.isAvailable(), pageable);
         }
         if (model.getStartDate() == null && model.getEndDate() != null) {
-            if (model.getAsc() != null && model.getAsc() != "") {
-                return deliveryPersonRepository.findAllByNameContainsIgnoreCaseAndAvailableAndCreatedAtIsBefore(model.getSearch(), model.isAvailable(), model.getStartDate(), pageable, Sort.by(Sort.Direction.ASC, model.getAsc()));
-            }
-            return deliveryPersonRepository.findAllByNameContainsIgnoreCaseAndAvailableAndCreatedAtIsBefore(model.getSearch(), model.isAvailable(), model.getStartDate(), pageable, Sort.by(Sort.Direction.DESC, model.getDesc()));
+            return deliveryPersonRepository.findAllByNameContainsIgnoreCaseAndAvailableAndCreatedAtIsBefore(model.getSearch(), model.isAvailable(), model.getStartDate(), pageable);
         }
         if (model.getStartDate() != null && model.getEndDate() == null) {
-            if (model.getAsc() != null && model.getAsc() != "") {
-                return deliveryPersonRepository.findAllByNameContainsIgnoreCaseAndAvailableAndCreatedAtIsAfter(model.getSearch(), model.isAvailable(), model.getStartDate(), pageable, Sort.by(Sort.Direction.ASC, model.getAsc()));
-            }
-            return deliveryPersonRepository.findAllByNameContainsIgnoreCaseAndAvailableAndCreatedAtIsAfter(model.getSearch(), model.isAvailable(), model.getStartDate(), pageable, Sort.by(Sort.Direction.DESC, model.getDesc()));
+            return deliveryPersonRepository.findAllByNameContainsIgnoreCaseAndAvailableAndCreatedAtIsAfter(model.getSearch(), model.isAvailable(), model.getStartDate(), pageable);
         }
-        if (model.getAsc() != null && model.getAsc() != "") {
-            return deliveryPersonRepository.findAllByNameContainsIgnoreCaseAndAvailableAndCreatedAtIsBetween(model.getSearch(), model.isAvailable(), model.getStartDate(), model.getEndDate(), pageable, Sort.by(Sort.Direction.ASC, model.getAsc()));
-        }
-        return deliveryPersonRepository.findAllByNameContainsIgnoreCaseAndAvailableAndCreatedAtIsBetween(model.getSearch(), model.isAvailable(), model.getStartDate(), model.getEndDate(), pageable, Sort.by(Sort.Direction.DESC, model.getDesc()));
+        return deliveryPersonRepository.findAllByNameContainsIgnoreCaseAndAvailableAndCreatedAtIsBetween(model.getSearch(), model.isAvailable(), model.getStartDate(), model.getEndDate(), pageable);
     }
-    public DeliveryPersonEntity update(Long id, InsertDeliveryPersonDto model)  {
+    public DeliveryPersonEntity update(UUID id, InsertDeliveryPersonDto model)  {
         var deliveryPersonEntity = deliveryPersonRepository.findById(id);
         if (deliveryPersonEntity.isEmpty()) {
             throw new RessourceNotFoundException();

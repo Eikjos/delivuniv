@@ -14,8 +14,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
-@RequestMapping("/api/delivery-tour")
+@RequestMapping("/api/delivery-tours")
 @AllArgsConstructor
 @Tag(name = "Delivery tours routes", description = "All related routes of delivery tours")
 public class DeliveryTourController {
@@ -32,8 +34,7 @@ public class DeliveryTourController {
                     )
             }
     )
-    public ResponseEntity<SearchResultsDto<DeliveryTourDto>> search(SearchDeliveryTourDto model) {
-        var deliveryTours =  SearchResultsDto.from(deliveryTourService.findAll(model)
+    public ResponseEntity<SearchResultsDto<DeliveryTourDto>> search(SearchDeliveryTourDto model) {var deliveryTours =  SearchResultsDto.from(deliveryTourService.findAll(model)
                 .map(deliveryTour -> mapper.map(deliveryTour, DeliveryTourDto.class)));
         return ResponseEntity.ok(deliveryTours);
     }
@@ -48,7 +49,7 @@ public class DeliveryTourController {
                             responseCode = "404",
                             description = "Not delivery tour exist with this id"),
             })
-    public ResponseEntity<DeliveryTourDto> getById(@PathVariable Long id) {
+    public ResponseEntity<DeliveryTourDto> getById(@PathVariable UUID id) {
         var deliveryTour = deliveryTourService.findById(id);
         if (deliveryTour == null) {
             return ResponseEntity.notFound().build();
@@ -65,13 +66,35 @@ public class DeliveryTourController {
                     ),
                     @ApiResponse(
                             responseCode = "400",
-                            description =  "Bad request if endDate is before startDate or name is null"
+                            description =  "Bad request if endDate is before startDate or name is null or delivery-person is not valid"
                     )
             }
     )
     public ResponseEntity<DeliveryTourDto> insert(@RequestBody InsertDeliveryTourDto model) {
         var deliveryTour = deliveryTourService.create(model);
         return new ResponseEntity<DeliveryTourDto>(mapper.map(deliveryTour, DeliveryTourDto.class), HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "201",
+                            description = "Delivery tour is succesfully updated"
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description =  "Bad request if endDate is before startDate or name is null or delivery-person is not valid"
+                    )
+            }
+    )
+    public ResponseEntity<DeliveryTourDto> update(@PathVariable UUID id, @RequestBody InsertDeliveryTourDto model) {
+        var deliveryTour = deliveryTourService.findById(id);
+        if (deliveryTour == null) {
+            return ResponseEntity.notFound().build();
+        }
+        deliveryTour = deliveryTourService.update(id, model);
+        return ResponseEntity.ok(mapper.map(deliveryTour, DeliveryTourDto.class));
     }
 
     @DeleteMapping("/{id}")
@@ -87,7 +110,7 @@ public class DeliveryTourController {
                     )
             }
     )
-    public ResponseEntity delete(@PathVariable Long id) {
+    public ResponseEntity delete(@PathVariable UUID id) {
         var deliveryTour = deliveryTourService.findById(id);
         if (deliveryTour == null)
             return ResponseEntity.noContent().build();

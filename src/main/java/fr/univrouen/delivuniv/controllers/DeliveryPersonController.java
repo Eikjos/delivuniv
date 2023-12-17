@@ -18,9 +18,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/delivery-person")
+@RequestMapping("/api/delivery-persons")
 @AllArgsConstructor
 @Tag(name = "Delivery Persons routes", description = "All related routes of delivery persons")
 public class DeliveryPersonController {
@@ -39,7 +40,7 @@ public class DeliveryPersonController {
                             responseCode = "404",
                             description = "Not delivery person exist with this id"),
             })
-    public ResponseEntity<DeliveryPersonDto> findById(@PathVariable Long id) {
+    public ResponseEntity<DeliveryPersonDto> findById(@PathVariable UUID id) {
         var deliveryPerson = deliveryPersonService.findById(id);
         if (deliveryPerson.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -48,6 +49,20 @@ public class DeliveryPersonController {
     }
 
     @GetMapping
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "List of delivery person"
+                    )
+            }
+    )
+    public ResponseEntity<List<DeliveryPersonDto>> findAll() {
+        return ResponseEntity.ok(deliveryPersonService.findAll().stream()
+                .map(deliveryPerson -> mapper.map(deliveryPerson, DeliveryPersonDto.class)).toList());
+    }
+
+    @GetMapping("/search")
     @ApiResponses(
             value = {
                     @ApiResponse(
@@ -88,7 +103,7 @@ public class DeliveryPersonController {
                             responseCode = "200",
                             description = "The delivery person is successfully updated")
             })
-    public ResponseEntity<DeliveryPersonDto> update(@PathVariable Long id, @RequestBody InsertDeliveryPersonDto model) {
+    public ResponseEntity<DeliveryPersonDto> update(@PathVariable UUID id, @RequestBody InsertDeliveryPersonDto model) {
         if (deliveryPersonService.findById(id) == null) {
             return ResponseEntity.notFound().build();
         }
@@ -105,7 +120,7 @@ public class DeliveryPersonController {
                             responseCode = "200",
                             description = "The delivery person is successfully deleted")
             })
-    public ResponseEntity delete(@PathVariable Long id) {
+    public ResponseEntity delete(@PathVariable UUID id) {
         var deliveryPerson = deliveryPersonService.findById(id);
         if (deliveryPerson == null) {
             return ResponseEntity.noContent().build();
@@ -127,12 +142,12 @@ public class DeliveryPersonController {
                     )
             }
     )
-    public ResponseEntity<SearchResultsDto<DeliveryTourDto>> getByDeliveryPerson(@PathVariable Long id, SearchDeliveryTourDto model) {
+    public ResponseEntity<SearchResultsDto<DeliveryTourDto>> getByDeliveryPerson(@PathVariable UUID id, SearchDeliveryTourDto model) {
         var deliveryPerson = deliveryPersonService.findById(id);
         if (deliveryPerson.isEmpty())
             return ResponseEntity.notFound().build();
 
-        var deliveryTours = SearchResultsDto.from(deliveryTourService.findAllyDeliveryPerson(id, model)
+        var deliveryTours = SearchResultsDto.from(deliveryTourService.findAllByDeliveryPerson(id, model)
                 .map(deliveryTour -> mapper.map(deliveryTour, DeliveryTourDto.class)));
 
         return ResponseEntity.ok(deliveryTours);

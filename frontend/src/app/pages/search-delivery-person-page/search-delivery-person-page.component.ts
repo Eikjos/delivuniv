@@ -1,13 +1,12 @@
 import { DeliveryPersonService } from 'src/app/services/delivery-person.service';
-import { DeliveryPerson } from './../../models/delivery-person.model';
+import { DeliveryPerson } from '../../models/delivery-person.model';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'app-search-page',
-  templateUrl: './search-page.component.html',
+  templateUrl: './search-delivery-person-page.component.html',
 })
-export class SearchPageComponent implements OnInit {
+export class SearchDeliveryPersonPageComponent implements OnInit {
   search!: string;
   deliveryPersons!: DeliveryPerson[];
   page!: number;
