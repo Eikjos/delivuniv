@@ -18,4 +18,5 @@ public class DeliveryTourDto {
     private Instant startDate;
     private Instant endDate;
     private DeliveryPersonDto deliveryPerson;
+    private Integer numberDeliveries;
 }

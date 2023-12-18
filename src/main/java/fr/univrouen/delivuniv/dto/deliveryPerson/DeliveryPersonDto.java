@@ -15,4 +15,5 @@ public class DeliveryPersonDto {
     private boolean isAvailable;
     private Instant createdAt;
     private Integer numberTours;
+    private Integer numberDeliveries;
 }

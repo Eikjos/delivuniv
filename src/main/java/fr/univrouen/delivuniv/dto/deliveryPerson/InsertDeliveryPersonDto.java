@@ -7,8 +7,8 @@ import lombok.Data;
 @Data
 @Builder
 public class InsertDeliveryPersonDto {
-    @NotNull(message="name filed is required")
+    @NotNull(message="name is required")
     private String name;
-    @NotNull(message="available field is required")
+    @NotNull(message="available is required")
     private Boolean available;
 }

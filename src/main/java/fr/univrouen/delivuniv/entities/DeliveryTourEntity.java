@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -20,6 +21,8 @@ public class DeliveryTourEntity {
     private Instant endDate;
     @ManyToOne(optional = true)
     private DeliveryPersonEntity deliveryPerson;
+    @OneToMany(mappedBy = "deliveryTour")
+    private List<DeliveryEntity> deliveries;
     @Column(nullable = false, updatable = false)
     @CreationTimestamp
     private Instant createdAt;

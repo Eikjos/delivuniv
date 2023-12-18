@@ -57,16 +57,14 @@ public class DeliveryPersonService {
         return deliveryPersonRepository.findAllByNameContainsIgnoreCaseAndAvailableAndCreatedAtIsBetween(model.getSearch(), model.isAvailable(), model.getStartDate(), model.getEndDate(), pageable);
     }
     public DeliveryPersonEntity update(UUID id, InsertDeliveryPersonDto model)  {
+        var violations = validator.validate(model);
+        if (!violations.isEmpty()) throw new ValidationException(violations);
         var deliveryPersonEntity = deliveryPersonRepository.findById(id);
         if (deliveryPersonEntity.isEmpty()) {
             throw new RessourceNotFoundException();
         }
-        if (model.getName() != null) {
-            deliveryPersonEntity.get().setName(model.getName());
-        }
-        if (model.getAvailable() != null) {
-            deliveryPersonEntity.get().setAvailable(model.getAvailable());
-        }
+        deliveryPersonEntity.get().setName(model.getName());
+        deliveryPersonEntity.get().setAvailable(model.getAvailable());
         return deliveryPersonRepository.save(deliveryPersonEntity.get());
 
     }

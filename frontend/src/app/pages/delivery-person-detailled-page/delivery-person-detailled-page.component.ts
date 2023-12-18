@@ -14,6 +14,7 @@ export class DeliveryPersonDetailledPageComponent implements OnInit {
   pageSize!: number;
   date!: Date | null;
   nbPage!: number[];
+  itemCount!: number;
 
   constructor(
     private deliveryPersonService: DeliveryPersonService,
@@ -31,6 +32,7 @@ export class DeliveryPersonDetailledPageComponent implements OnInit {
         .getDeliveryTours(id, this.page, this.pageSize, null)
         .subscribe((items) => {
           this.deliveryTours = items.data;
+          this.itemCount = items.itemCount;
           this.nbPage = Array(items.pageCount)
             .fill(1)
             .map((x, i) => i + 1);
@@ -59,6 +61,7 @@ export class DeliveryPersonDetailledPageComponent implements OnInit {
       )
       .subscribe((items) => {
         this.deliveryTours = items.data;
+        this.itemCount = items.itemCount;
         this.nbPage = this.nbPage = Array(items.pageCount)
           .fill(1)
           .map((x, i) => i + 1);
@@ -76,6 +79,7 @@ export class DeliveryPersonDetailledPageComponent implements OnInit {
       )
       .subscribe((items) => {
         this.deliveryTours = items.data;
+        this.itemCount = items.itemCount;
         this.nbPage = this.nbPage = Array(items.pageCount)
           .fill(1)
           .map((x, i) => i + 1);

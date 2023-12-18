@@ -44,6 +44,8 @@ public class DeliveryTourService {
     }
 
     public Page<DeliveryTourEntity> findAll(SearchDeliveryTourDto model) {
+        if (model.getItemsPerPage() == null) model.setItemsPerPage(10);
+        if (model.getPage() == null) model.setPage(0);
         var pageable = Pageable.ofSize(model.getItemsPerPage()).withPage(model.getPage());
         if (model.getDate() == null) {
             return deliveryTourRepository.findAll(pageable);
@@ -62,6 +64,7 @@ public class DeliveryTourService {
     public DeliveryTourEntity update(UUID id, InsertDeliveryTourDto model) {
         var validations = validator.validate(model);
         if (!validations.isEmpty()) throw new ValidationException(validations);
+        if (model.getStartDate().isAfter(model.getEndDate()))  throw new jakarta.validation.ValidationException("start date must be before the end date");
         var deliveryTour = deliveryTourRepository.findById(id).orElse(null);
         if (deliveryTour == null) {
             throw new DeliveryTourNotFoundException();
@@ -78,6 +81,7 @@ public class DeliveryTourService {
     public DeliveryTourEntity create(InsertDeliveryTourDto model) {
         var validations = validator.validate(model);
         if (!validations.isEmpty()) throw new ValidationException(validations);
+        if (model.getStartDate().isAfter(model.getEndDate()))  throw new jakarta.validation.ValidationException("start date must be before the end date");
         DeliveryPersonEntity deliveryPerson = validDeliveryPerson(model.getDeliveryPersonId(), model.getStartDate(), model.getEndDate());
         var deliveryTour = mapper.map(model, DeliveryTourEntity.class);
         if (deliveryPerson != null) {

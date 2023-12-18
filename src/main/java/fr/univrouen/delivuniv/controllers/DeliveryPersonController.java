@@ -41,11 +41,17 @@ public class DeliveryPersonController {
                             description = "Not delivery person exist with this id"),
             })
     public ResponseEntity<DeliveryPersonDto> findById(@PathVariable UUID id) {
-        var deliveryPerson = deliveryPersonService.findById(id);
-        if (deliveryPerson.isEmpty()) {
+        var deliveryPerson = deliveryPersonService.findById(id).orElse(null);
+        if (deliveryPerson == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(mapper.map(deliveryPerson, DeliveryPersonDto.class));
+        var dto = mapper.map(deliveryPerson, DeliveryPersonDto.class);
+        var numberDeliveries = 0;
+        for (var deliveryTour : deliveryPerson.getDeliveryTours()) {
+            numberDeliveries += deliveryTour.getDeliveries().size();
+        }
+        dto.setNumberDeliveries(numberDeliveries);
+        return ResponseEntity.ok(dto);
     }
 
     @GetMapping
@@ -73,7 +79,14 @@ public class DeliveryPersonController {
         return ResponseEntity.ok(SearchResultsDto.from(deliveryPersonService.search(model)
                 .map(deliveryPerson -> {
                     var dto = mapper.map(deliveryPerson, DeliveryPersonDto.class);
-                    dto.setNumberTours(deliveryPerson.getDeliveryTours().size());
+                    var numberDeliveries = 0;
+                    var numberDeliveryTours = 0;
+                    for (var deliveryTour : deliveryPerson.getDeliveryTours()) {
+                        ++numberDeliveryTours;
+                        numberDeliveries += deliveryTour.getDeliveries().size();
+                    }
+                    dto.setNumberDeliveries(numberDeliveries);
+                    dto.setNumberTours(numberDeliveryTours);
                     return dto;
                 })));
     }
@@ -93,7 +106,7 @@ public class DeliveryPersonController {
         return new ResponseEntity<>(mapper.map(deliveryPersonService.insert(model), DeliveryPersonDto.class), HttpStatus.CREATED);
     }
 
-    @PatchMapping("/{id}")
+    @PutMapping("/{id}")
     @ApiResponses(
             value = {
                     @ApiResponse
@@ -101,7 +114,11 @@ public class DeliveryPersonController {
                             description = "The delivery person to be updated does not exist"),
                     @ApiResponse(
                             responseCode = "200",
-                            description = "The delivery person is successfully updated")
+                            description = "The delivery person is successfully updated"),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Name is null or Available is null"
+                    )
             })
     public ResponseEntity<DeliveryPersonDto> update(@PathVariable UUID id, @RequestBody InsertDeliveryPersonDto model) {
         if (deliveryPersonService.findById(id) == null) {
@@ -138,7 +155,7 @@ public class DeliveryPersonController {
                     ),
                     @ApiResponse(
                             responseCode = "404",
-                            description =  "The delivery person not exisit"
+                            description =  "The delivery person not exist"
                     )
             }
     )
@@ -148,13 +165,13 @@ public class DeliveryPersonController {
             return ResponseEntity.notFound().build();
 
         var deliveryTours = SearchResultsDto.from(deliveryTourService.findAllByDeliveryPerson(id, model)
-                .map(deliveryTour -> mapper.map(deliveryTour, DeliveryTourDto.class)));
+                .map(deliveryTour -> {
+                    var dto = mapper.map(deliveryTour, DeliveryTourDto.class);
+                    dto.setNumberDeliveries(deliveryTour.getDeliveries().size());
+                    return dto;
+                }));
 
         return ResponseEntity.ok(deliveryTours);
-    }
-
-    private int compareTo(DeliveryPersonDto o1, DeliveryPersonDto o2) {
-        return o1.getNumberTours().compareTo(o2.getNumberTours());
     }
 
 }

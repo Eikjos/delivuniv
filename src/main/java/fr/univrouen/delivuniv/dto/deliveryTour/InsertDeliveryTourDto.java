@@ -8,11 +8,11 @@ import java.util.UUID;
 
 @Data
 public class InsertDeliveryTourDto {
-    @NotNull(message = "name field is required")
+    @NotNull(message = "name is required")
     private String name;
-    @NotNull(message = "startDate field is required")
+    @NotNull(message = "start date is required")
     private Instant startDate;
-    @NotNull(message = "endDate field is required")
+    @NotNull(message = "end date is required")
     private Instant endDate;
     private UUID deliveryPersonId;
 }

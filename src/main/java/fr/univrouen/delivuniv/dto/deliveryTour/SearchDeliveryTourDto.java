@@ -7,6 +7,6 @@ import java.time.Instant;
 @Data
 public class SearchDeliveryTourDto {
     private Instant date;
-    private int page;
-    private int itemsPerPage;
+    private Integer page;
+    private Integer itemsPerPage;
 }
