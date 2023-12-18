@@ -5,7 +5,6 @@ import { DeliveryPerson } from 'src/app/models/delivery-person.model';
 import { DeliveryPersonService } from 'src/app/services/delivery-person.service';
 
 @Component({
-  selector: 'app-update-delivery-person-page',
   templateUrl: './update-delivery-person-page.component.html',
 })
 export class UpdateDeliveryPersonPageComponent implements OnInit {
@@ -40,7 +39,7 @@ export class UpdateDeliveryPersonPageComponent implements OnInit {
 
   onSubmit(): void {
     this.submitted = true;
-    if (this.deliveryPerson.name != null || this.deliveryPerson.name != '') {
+    if (this.form.value.name != null || this.form.value.name != '') {
       this.deliveryPerson.name = this.form.value.name;
       this.service.update(this.deliveryPerson).subscribe((items) => {
         this.router.navigate(['/']);
