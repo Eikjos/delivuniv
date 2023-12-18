@@ -73,7 +73,7 @@ public class DeliveryPersonController {
         return ResponseEntity.ok(SearchResultsDto.from(deliveryPersonService.search(model)
                 .map(deliveryPerson -> {
                     var dto = mapper.map(deliveryPerson, DeliveryPersonDto.class);
-                    dto.setNumberTours(deliveryTourService.countAllByDeliveryPerson(dto.getId()));
+                    dto.setNumberTours(deliveryPerson.getDeliveryTours().size());
                     return dto;
                 })));
     }
@@ -151,6 +151,10 @@ public class DeliveryPersonController {
                 .map(deliveryTour -> mapper.map(deliveryTour, DeliveryTourDto.class)));
 
         return ResponseEntity.ok(deliveryTours);
+    }
+
+    private int compareTo(DeliveryPersonDto o1, DeliveryPersonDto o2) {
+        return o1.getNumberTours().compareTo(o2.getNumberTours());
     }
 
 }

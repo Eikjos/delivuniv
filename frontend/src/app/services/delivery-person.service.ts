@@ -20,7 +20,7 @@ export class DeliveryPersonService {
     page: number,
     pageSize: number,
     isAvailable: boolean,
-    orderResult: 'asc' | 'desc',
+    orderResult: 'dateAsc' | 'dateDesc' | 'toursAsc' | 'toursDesc',
     startDate: string | null,
     endDate: string | null
   ): Observable<SearchDeliveryPerson> => {
@@ -31,8 +31,18 @@ export class DeliveryPersonService {
           page,
           itemsPerPage: pageSize,
           available: isAvailable,
-          asc: orderResult === 'asc' ? 'createdAt' : '',
-          desc: orderResult === 'desc' ? 'createdAt' : '',
+          asc:
+            orderResult === 'dateAsc'
+              ? 'createdAt'
+              : orderResult === 'toursAsc'
+              ? 'deliveryTours'
+              : '',
+          desc:
+            orderResult === 'dateDesc'
+              ? 'createdAt'
+              : orderResult === 'toursDesc'
+              ? 'deliveryTours'
+              : '',
           startDate,
           endDate,
         },
@@ -44,8 +54,18 @@ export class DeliveryPersonService {
           page,
           itemsPerPage: pageSize,
           available: isAvailable,
-          asc: orderResult === 'asc' ? 'createdAt' : '',
-          desc: orderResult === 'desc' ? 'createdAt' : '',
+          asc:
+            orderResult === 'dateAsc'
+              ? 'createdAt'
+              : orderResult === 'toursAsc'
+              ? 'deliveryTours'
+              : '',
+          desc:
+            orderResult === 'dateDesc'
+              ? 'createdAt'
+              : orderResult === 'toursDesc'
+              ? 'deliveryTours'
+              : '',
           endDate,
         },
       });
@@ -56,8 +76,18 @@ export class DeliveryPersonService {
           page,
           itemsPerPage: pageSize,
           available: isAvailable,
-          asc: orderResult === 'asc' ? 'createdAt' : '',
-          desc: orderResult === 'desc' ? 'createdAt' : '',
+          asc:
+            orderResult === 'dateAsc'
+              ? 'createdAt'
+              : orderResult === 'toursAsc'
+              ? 'deliveryTours'
+              : '',
+          desc:
+            orderResult === 'dateDesc'
+              ? 'createdAt'
+              : orderResult === 'toursDesc'
+              ? 'deliveryTours'
+              : '',
           startDate,
         },
       });
@@ -68,8 +98,18 @@ export class DeliveryPersonService {
           page,
           itemsPerPage: pageSize,
           available: isAvailable,
-          asc: orderResult === 'asc' ? 'createdAt' : '',
-          desc: orderResult === 'desc' ? 'createdAt' : '',
+          asc:
+            orderResult === 'dateAsc'
+              ? 'createdAt'
+              : orderResult === 'toursAsc'
+              ? 'deliveryTours'
+              : '',
+          desc:
+            orderResult === 'dateDesc'
+              ? 'createdAt'
+              : orderResult === 'toursDesc'
+              ? 'deliveryTours'
+              : '',
         },
       });
     }

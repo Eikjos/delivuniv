@@ -14,5 +14,5 @@ public class DeliveryPersonDto {
     private String name;
     private boolean isAvailable;
     private Instant createdAt;
-    private Long numberTours;
+    private Integer numberTours;
 }

@@ -5,7 +5,7 @@
       Rechercher des tournées
     </button>
   </a>
-  <a href="delivery-person/create">
+  <a href="delivery-persons/create">
     <button class="bg-[#ffaa33] rounded-lg px-4 py-2">
       Ajouter un livreur
     </button>
@@ -79,8 +79,10 @@
         (ngModelChange)="onChangeFilterOrder()"
         class="border-2 border-[#ffaa33] rounded-lg"
       >
-        <option value="asc">Date de création croissante</option>
-        <option value="desc">Date de création décroissante</option>
+        <option value="dateAsc">Date de création croissante</option>
+        <option value="dateDesc">Date de création décroissante</option>
+        <option value="toursAsc">Nombre de tournée croissante</option>
+        <option value="toursDesc">Nombre de tournée décroissante</option>
       </select>
       <select
         [(ngModel)]="pageSize"

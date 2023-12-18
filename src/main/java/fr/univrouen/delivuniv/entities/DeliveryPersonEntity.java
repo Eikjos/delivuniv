@@ -1,5 +1,6 @@
 package fr.univrouen.delivuniv.entities;
 
+import fr.univrouen.delivuniv.services.DeliveryTourService;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -23,4 +24,6 @@ public class DeliveryPersonEntity {
     @Column(nullable = false, updatable = false)
     @CreationTimestamp
     private Instant createdAt;
+    @OneToMany(mappedBy = "deliveryPerson")
+    private List<DeliveryTourEntity> deliveryTours;
 }
