@@ -29,13 +29,13 @@ public class DeliveryTourService {
     private final ModelMapper mapper;
     private final Validator validator;
 
+    public List<DeliveryTourEntity> findAll() {
+        return (List<DeliveryTourEntity>) deliveryTourRepository.findAll();
+    }
+
     public DeliveryTourEntity findById(UUID id) {
         var deliveryTour = deliveryTourRepository.findById(id);
         return deliveryTour.orElse(null);
-    }
-
-    public Long countAllByDeliveryPerson(UUID personId) {
-        return deliveryTourRepository.countAllByDeliveryPerson_Id(personId);
     }
     public Page<DeliveryTourEntity> findAllByDeliveryPerson(UUID personId, SearchDeliveryTourDto model) {
         var pageable = Pageable.ofSize(model.getItemsPerPage()).withPage(model.getPage());
@@ -58,6 +58,9 @@ public class DeliveryTourService {
     }
 
     public void delete(DeliveryTourEntity deliveryTour) {
+        for (var delivery: deliveryTour.getDeliveries()) {
+            delivery.setDeliveryTour(null);
+        }
         deliveryTourRepository.deleteById(deliveryTour.getId());
     }
 

@@ -1,10 +1,5 @@
-<app-header></app-header>
+<app-header [page]='"delivery-tour"'></app-header>
 <div class="float-right mt-5 mr-5 flex flex-row gap-4">
-  <a href="/">
-    <button class="bg-[#ffaa33] rounded-lg px-4 py-2">
-      Rechercher des livreurs
-    </button>
-  </a>
   <a href="delivery-tours/create">
     <button class="bg-[#ffaa33] rounded-lg px-4 py-2">
       Ajouter une tournée
@@ -14,7 +9,7 @@
 <div>
   <form class="flex align-center justify-center mt-5">
       <input placeholder="Rechercher par date" [(ngModel)]="date" (ngModelChange)="onChangeDate()" name="date"
-        class="border-2 border-gray-500 w-[30%] outline-none p-2 rounded-md ml-96 h-10"  type="text" (focus)="onFocus($event)" (blur)="onBlur($event)" />
+        class="border-2 border-gray-500 w-[30%] outline-none p-2 rounded-md ml-56 h-10"  type="text" (focus)="onFocus($event)" (blur)="onBlur($event)" />
   </form>
 </div>
 <div class="searchResultContainer">

@@ -4,6 +4,7 @@ import fr.univrouen.delivuniv.dto.SearchResultsDto;
 import fr.univrouen.delivuniv.dto.delivery.DeliveryDto;
 import fr.univrouen.delivuniv.dto.delivery.InsertDeliveryDto;
 import fr.univrouen.delivuniv.dto.delivery.SearchDeliveryDto;
+import fr.univrouen.delivuniv.dto.deliveryTour.DeliveryTourDto;
 import fr.univrouen.delivuniv.services.DeliveryService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -53,6 +54,24 @@ public class DeliveryController {
     )
     public ResponseEntity<SearchResultsDto<DeliveryDto>> findAll(SearchDeliveryDto model) {
         return ResponseEntity.ok(SearchResultsDto.from(deliveryService.findAll(model).map(d -> mapper.map(d, DeliveryDto.class))));
+    }
+
+    @GetMapping("/{id}")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Return the delivery who the requested id"),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Not delivery exist with this id"),
+            })
+    public ResponseEntity<DeliveryDto> findById(@PathVariable UUID id) {
+        var delivery = deliveryService.findById(id);
+        if (delivery == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(mapper.map(delivery, DeliveryDto.class));
     }
 
     @PutMapping("/{id}")

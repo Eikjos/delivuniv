@@ -1,0 +1,40 @@
+<app-header [page]='"delivery"'></app-header>
+<div>
+  <div class="float-left absolute left-10">
+    <button class="bg-[#ffaa33] p-2 rounded-lg mt-3 px-4" (click)="onBack()">Retour</button>
+  </div>
+  <h2 class="text-2xl text-center mt-5 mx-auto">Création d'une livraison</h2>
+  <form class="mt-10 flex flex-col justify-center items-center" (ngSubmit)="onSubmit()" [formGroup]="form">
+    <div class="w-[500px]">
+      <label for="pickUpAddress">Adresse de ramassage : </label>
+      <input type="text" name="pickUpAddress" class="border-2 border-gray-500 outline-none p-2 rounded-md my-3 "formControlName="pickUpAddress" required placeholder="Adresse de ramassage"/>
+      <div *ngIf="pickUpAddressControl.invalid && (submitted || (pickUpAddressControl.dirty || pickUpAddressControl.touched))"
+        class="alert alert-danger">
+        <div *ngIf="pickUpAddressControl.errors?.['required']" class="text-red-700 text-center ml-5 mb-2">
+          L'adresse de ramassage est requis
+        </div>
+      </div>
+    </div>
+    <div class="w-[500px]">
+      <label class="ml-9" for="deliveryAddress">Adresse de dépôt : </label>
+      <input type="text" name="deliveryAddress" class="border-2 border-gray-500 outline-none p-2 rounded-md my-3" placeholder="Adresse de dépôt"
+        formControlName="deliveryAddress" required />
+      <div
+        *ngIf="deliveryAddressControl.invalid && (submitted || (deliveryAddressControl.dirty || deliveryAddressControl.touched))"
+        class="alert alert-danger">
+        <div *ngIf="deliveryAddressControl.errors?.['required']" class="text-red-700 text-center ml-5 mb-2">
+          L'adresse de dépôt est requis
+        </div>
+      </div>
+    </div>
+    <div class="flex justify-center flex-row items-center gap-x-2 w-[500px]">
+      <label for="name">Tournée :</label>
+      <select name="deliveryTour" class="border-2 border-gray-500 outline-none p-2 rounded-md my-3 h-10 w-[220px]"
+        formControlName="deliveryTourId">
+        <option *ngFor="let item of deliveryTours" [value]="item.id">{{item.name}}</option>
+      </select>
+    </div>
+    <button type="submit" class="bg-[#ffaa33] p-2 rounded-lg mt-3 px-4">Créer</button>
+
+  </form>
+</div>

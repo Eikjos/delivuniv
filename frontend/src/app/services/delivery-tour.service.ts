@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { DeliveryTour } from 'src/app/models/delivery-tour.model';
 import { SearchDeliveryTour } from 'src/app/models/search-delivery-tour.model';
+import { SearchDelivery } from 'src/app/models/search-delivery.model';
 
 @Injectable({
   providedIn: 'root',
@@ -10,13 +11,15 @@ import { SearchDeliveryTour } from 'src/app/models/search-delivery-tour.model';
 export default class DeliveryTourService {
   constructor(private http: HttpClient) {}
 
+  findAll = () => this.http.get<DeliveryTour[]>('delivery-tours');
+
   search = (
     date: string | null,
     page: number,
     pageSize: number
   ): Observable<SearchDeliveryTour> => {
     if (date == null) {
-      return this.http.get<SearchDeliveryTour>('delivery-tours', {
+      return this.http.get<SearchDeliveryTour>('delivery-tours/search', {
         params: {
           page,
           itemsPerPage: pageSize,
@@ -58,4 +61,12 @@ export default class DeliveryTourService {
     });
 
   delete = (id: number) => this.http.delete('delivery-tours/' + id);
+
+  getDeliveries = (id: number, page: number, pageSize: number) =>
+    this.http.get<SearchDelivery>('delivery-tours/' + id + '/deliveries', {
+      params: {
+        page,
+        itemsPerPage: pageSize,
+      },
+    });
 }

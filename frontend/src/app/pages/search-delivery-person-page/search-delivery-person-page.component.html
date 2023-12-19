@@ -1,10 +1,5 @@
-<app-header></app-header>
+<app-header [page]='"delivery-person"'></app-header>
 <div class="float-right mt-5 mr-5 flex flex-row gap-4">
-  <a href="delivery-tours">
-    <button class="bg-[#ffaa33] rounded-lg px-4 py-2">
-      Rechercher des tournées
-    </button>
-  </a>
   <a href="delivery-persons/create">
     <button class="bg-[#ffaa33] rounded-lg px-4 py-2">
       Ajouter un livreur
@@ -22,7 +17,7 @@
       name="search"
       placeholder="Taper le nom d'un livreur"
       [(ngModel)]="search"
-      class="border-2 border-gray-500 w-[30%] outline-none p-2 rounded-md ml-96"
+      class="border-2 border-gray-500 w-[30%] outline-none p-2 rounded-md ml-48"
     />
   </form>
 </div>

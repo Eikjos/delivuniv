@@ -23,24 +23,33 @@ import { LoadingComponent } from 'src/app/components/loading/loading.component';
 import { InsertDeliveryTourComponent } from 'src/app/pages/insert-delivery-tour-page/insert-delivery-tour-page.component';
 import { DeliveryTourDetailledPageComponent } from 'src/app/pages/delivery-tour-detailled-page/delivery-tour-detailled-page.component';
 import { UpdateDeliveryTourComponent } from 'src/app/pages/update-delivery-tour-page/update-delivery-tour-page.component';
-// import { InputMaskModule } from 'primeng/inputmask';
+import DeliveryCardComponent from 'src/app/components/delivery-card/delivery-card.component';
+import { SearchDeliveryPageComponent } from 'src/app/pages/search-delivery-page/search-delivery-page.component';
+import { InsertDeliveryComponent } from 'src/app/pages/insert-delivery-page/insert-delivery-page.component';
+import { DeliveryDetailledPageComponent } from 'src/app/pages/delivery-detailled-page/delivery-detailled-page.component';
+import { UpdateDeliveryComponent } from 'src/app/pages/update-delivery-page/update-delivery-page.component';
 
 registerLocaleData(localeFr, 'fr');
 @NgModule({
   declarations: [
     AppComponent,
     DeliveryPersonCardComponent,
+    DeliveryCardComponent,
     PingAvailableComponent,
     ToggleButtonComponent,
     SearchDeliveryPersonPageComponent,
     SearchDeliveryTourPageComponent,
+    SearchDeliveryPageComponent,
     HeaderComponent,
     DeliveryPersonDetailledPageComponent,
+    DeliveryDetailledPageComponent,
     DeliveryTourDetailledPageComponent,
     UpdateDeliveryPersonPageComponent,
     UpdateDeliveryTourComponent,
+    UpdateDeliveryComponent,
     InsertDeliveryPersonComponent,
     InsertDeliveryTourComponent,
+    InsertDeliveryComponent,
     LoadingComponent,
     DeliveryTourCardComponent,
   ],

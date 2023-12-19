@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DeliveryPerson } from 'src/app/models/delivery-person.model';
@@ -24,19 +25,26 @@ export class DeliveryPersonDetailledPageComponent implements OnInit {
 
   ngOnInit(): void {
     const id = this.route.snapshot.params['id'];
-    this.deliveryPersonService.getById(id).subscribe((item) => {
-      this.deliveryPerson = item;
-      this.pageSize = 10;
-      this.page = 0;
-      this.deliveryPersonService
-        .getDeliveryTours(id, this.page, this.pageSize, null)
-        .subscribe((items) => {
-          this.deliveryTours = items.data;
-          this.itemCount = items.itemCount;
-          this.nbPage = Array(items.pageCount)
-            .fill(1)
-            .map((x, i) => i + 1);
-        });
+    this.deliveryPersonService.getById(id).subscribe({
+      next: (item: DeliveryPerson) => {
+        this.deliveryPerson = item;
+        this.pageSize = 10;
+        this.page = 0;
+        this.deliveryPersonService
+          .getDeliveryTours(id, this.page, this.pageSize, null)
+          .subscribe((items) => {
+            this.deliveryTours = items.data;
+            this.itemCount = items.itemCount;
+            this.nbPage = Array(items.pageCount)
+              .fill(1)
+              .map((x, i) => i + 1);
+          });
+      },
+      error: (err: HttpErrorResponse) => {
+        if (err.status != 200) {
+          this.router.navigate(['/']);
+        }
+      },
     });
   }
 

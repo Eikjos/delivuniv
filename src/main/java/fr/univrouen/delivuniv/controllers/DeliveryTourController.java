@@ -35,6 +35,19 @@ public class DeliveryTourController {
             value = {
                     @ApiResponse(
                             responseCode = "200",
+                            description = "Return the list of all the delivery tours"
+                    )
+            }
+    )
+    public ResponseEntity<List<DeliveryTourDto>> findAll() {
+        return ResponseEntity.ok(deliveryTourService.findAll().stream().map(dt -> mapper.map(dt, DeliveryTourDto.class)).toList());
+    }
+
+    @GetMapping("search")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "200",
                             description = "Return the result of the search for delivery tours"
                     )
             }

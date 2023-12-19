@@ -1,24 +1,42 @@
-<app-header></app-header>
+<app-header [page]='"delivery-tour"'></app-header>
 <h2 class="text-2xl text-center mt-5">Affiche de la tournée</h2>
 <div class="float-left mt-5 ml-5">
   <button class="bg-[#ffaa33] p-2 rounded-lg mt-3 px-4" (click)="onBack()">Retour</button>
 </div>
-<div *ngIf="deliveryTour" class="mx-auto mt-10 w-40">
-  <p class="text-center text-xl">{{deliveryTour.name}}</p>
-  <p class="text-center text-sm">Du {{deliveryTour.startDate | date : 'dd/MM/yyyy'}} au {{deliveryTour.endDate | date : 'dd/MM/yyyy'}}</p>
+<div *ngIf="deliveryTour" class="mx-auto mt-10 w-50">
+  <div class="flex flex-row justify-center w-full">
+  <table class="mx-auto text-center">
+    <tr>
+      <td>
+        {{deliveryTour.name}}
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Du {{deliveryTour.startDate | date : 'dd/MM/yyyy'}} au {{deliveryTour.endDate | date : 'dd/MM/yyyy'}}
+      </td>
+    </tr>
+    <tr>
+      <td>
+        Livreur : {{deliveryTour.deliveryPerson.name}}
+      </td>
+    </tr>
+  </table>
+  </div>
   <div class="flex flex-row justify-center items-center mt-10 gap-x-20">
     <button class="rounded-lg bg-red-500 text-white p-3" (click)="delete()">Supprimer</button>
     <a href="/delivery-tours/{{deliveryTour.id}}/update"><button
         class="rounded-lg bg-blue-500 text-white p-3">Editer</button></a>
   </div>
 </div>
-<!-- <div *ngIf="deliveryTours">
-  <h2 class="text-2xl text-center mt-8">Tournée du livreurs</h2>
-  <div *ngIf="deliveryTours.length == 0" class="text-center mt-20">
-    <p>Ce livreur n'a pas encore de tournée de prévus</p>
+<div *ngIf="deliveries">
+  <h2 class="text-2xl text-center mt-8">Livraisons</h2>
+  <div *ngIf="deliveries.length == 0" class="text-center mt-20">
+    <p>Cette tournée n'a pas encore de livraison de prévus</p>
   </div>
-  <div *ngIf="deliveryTours.length">
-    <div class="flex flex-row gap-x-5 my-10 justify-end mr-5 h-8">
+  <div *ngIf="deliveries.length">
+    <div class="flex flex-row gap-x-5 my-10 justify-end mr-5 h-8 items-center">
+      <p>Nombre totale de livraison : {{itemCount}}</p>
       <select [(ngModel)]="pageSize" (ngModelChange)="onChangePageSize()" class="border-2 border-[#ffaa33] rounded-lg">
         <option value="10">10</option>
         <option value="20">20</option>
@@ -37,6 +55,6 @@
       </div>
     </div>
     <div class="grid mx-5 grid-cols-3 gap-4 mb-5">
-      <!-- <app-delivery-tour-card *ngFor="let item of deliveryTours" [deliveryTour]="item"></app-delivery-tour-card> 
+      <app-delivery-card *ngFor="let item of deliveries" [delivery]="item"></app-delivery-card> 
     </div>
-  </div> -->
+  </div>

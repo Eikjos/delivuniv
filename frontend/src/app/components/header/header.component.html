@@ -1,3 +1,10 @@
-<header class="bg-[#ffaa33] h-14 pt-2 px-7">
+<header class="bg-[#ffaa33] h-14 pt-2 px-7 flex flex-row justify-between items-center">
   <h1 class="text-4xl">Delivuniv</h1>
+  <nav>
+    <ul class="flex flex-row gap-5 text-xl">
+      <a href="/"><li class="hover:text-white" [ngClass]="page == 'delivery-person' ? 'text-white' : ''">Livreurs</li></a>
+      <a href="/delivery-tours"><li class="hover:text-white" [ngClass]="page == 'delivery-tour' ? 'text-white' : ''">Tournées</li></a>
+      <a href="/deliveries"><li class="hover:text-white" [ngClass]="page == 'delivery' ? 'text-white' : ''">Livraisons</li></a>
+    </ul>
+  </nav>
 </header>
