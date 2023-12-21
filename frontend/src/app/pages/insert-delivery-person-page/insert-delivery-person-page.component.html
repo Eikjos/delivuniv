@@ -1,9 +1,9 @@
-<app-header></app-header>
+<app-header [page]='"delivery-person"'></app-header>
 <div>
-  <div class="float-left mt-5 ml-5">
+  <div class="float-left absolute left-10">
     <button class="bg-[#ffaa33] p-2 rounded-lg mt-3 px-4" (click)="onBack()">Retour</button>
   </div>
-  <h2 class="text-2xl text-center mt-5">Création d'un livreur</h2>
+  <h2 class="text-2xl text-center mt-5 mx-auto">Création d'un livreur</h2>
   <form class="mt-10 flex flex-col justify-center items-center" (ngSubmit)="onSubmit()" [formGroup]="form">
     <div>
       <label for="name">Nom : </label>

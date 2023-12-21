@@ -1,9 +1,12 @@
-<a href="/delivery-person/{{deliveryPerson.id}}">
+<a href="/delivery-persons/{{deliveryPerson.id}}">
   <div class="rounded-lg shadow-2xl p-5 hover:bg-[#f5bb69]">
-    <p>{{ deliveryPerson.name }}</p>
-    <div class="flex flex-row justify-between items-center">
+    <div class="flex flex-row justify-between">
+      <p>{{ deliveryPerson.name }}</p>
       <app-ping-available [isAvailable]="deliveryPerson.available"></app-ping-available>
-      <p>{{deliveryPerson.createdAt | date : 'd MMMM y'}}</p>
     </div>
+    <div class="flex flex-row justify-between items-center">
+      <p class="text-sm">{{deliveryPerson.createdAt | date : 'd MMMM y'}}</p>
+    </div>
+    <p class="text-sm">Nb de tournées : {{ deliveryPerson.numberTours}}, Nb de livraisons : {{ deliveryPerson.numberDeliveries }}</p>
   </div>
 </a>  

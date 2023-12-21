@@ -1,0 +1,8 @@
+<a href="/delivery-tours/{{deliveryTour.id}}">
+  <div class="rounded-lg shadow-2xl p-5 hover:bg-[#f5bb69]">
+    <p>{{ deliveryTour.name }}</p>
+    <div class="flex flex-row justify-between items-center">
+      <p>Du {{deliveryTour.startDate | date : 'dd/MM/yyyy'}} au {{deliveryTour.endDate | date : 'dd/MM/yyyy'}}</p>
+    </div>
+  </div>
+</a>

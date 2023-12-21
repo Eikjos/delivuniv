@@ -1,0 +1,42 @@
+<app-header [page]='"delivery-tour"'></app-header>
+<div class="float-right mt-5 mr-5 flex flex-row gap-4">
+  <a href="delivery-tours/create">
+    <button class="bg-[#ffaa33] rounded-lg px-4 py-2">
+      Ajouter une tournée
+    </button>
+  </a>
+</div>
+<div>
+  <form class="flex align-center justify-center mt-5">
+      <input placeholder="Rechercher par date" [(ngModel)]="date" (ngModelChange)="onChangeDate()" name="date"
+        class="border-2 border-gray-500 w-[30%] outline-none p-2 rounded-md ml-56 h-10"  type="text" (focus)="onFocus($event)" (blur)="onBlur($event)" />
+  </form>
+</div>
+<div class="searchResultContainer">
+  <div class="h-[calc(100vh-200px)]">
+    <div class="flex flex-row gap-x-5 my-10 justify-end mr-5 h-8">
+      <select [(ngModel)]="pageSize" (ngModelChange)="onChangePageSize()" class="border-2 border-[#ffaa33] rounded-lg">
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="30">30</option>
+      </select>
+      <div class="flex flex-row gap-x-5">
+        <div *ngFor="let item of nbPage">
+          <div *ngIf="item == page + 1" class="bg-[#ffaa33] flex justify-center items-center w-8 h-8 rounded-full">
+            <p>{{ item }}</p>
+          </div>
+          <div *ngIf="item != page + 1" class="w-8 h-8 flex justify-center items-center"
+            (click)="onChangePage(item - 1)">
+            <p>{{ item }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="deliveryTours.length" class="grid grid-flow-row grid-cols-3 mx-10 gap-x-4 gap-y-10">
+      <app-delivery-tour-card *ngFor="let item of deliveryTours" [deliveryTour]="item"></app-delivery-tour-card>
+    </div>
+    <div *ngIf="!deliveryTours.length" class="align-center flex h-[calc(100vh-250px)] justify-center">
+      <h3 class="m-auto">Il n'y a pas de résultat pour cette recherche</h3>
+    </div>
+  </div>
+</div>

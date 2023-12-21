@@ -1,13 +1,12 @@
 import { DeliveryPersonService } from 'src/app/services/delivery-person.service';
-import { DeliveryPerson } from './../../models/delivery-person.model';
+import { DeliveryPerson } from '../../models/delivery-person.model';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'app-search-page',
-  templateUrl: './search-page.component.html',
+  templateUrl: './search-delivery-person-page.component.html',
 })
-export class SearchPageComponent implements OnInit {
+export class SearchDeliveryPersonPageComponent implements OnInit {
   search!: string;
   deliveryPersons!: DeliveryPerson[];
   page!: number;
@@ -15,7 +14,7 @@ export class SearchPageComponent implements OnInit {
   isAvailable!: boolean;
   startDate!: Date | null;
   endDate!: Date | null;
-  order!: 'ORDER_BY_CREATED_DATE_ASC' | 'ORDER_BY_CREATED_DATE_DESC';
+  order!: 'dateAsc' | 'dateDesc' | 'toursAsc' | 'toursDesc';
   nbPage!: Array<number>;
   nbItems!: number;
 
@@ -26,7 +25,7 @@ export class SearchPageComponent implements OnInit {
     this.page = 0;
     this.isAvailable = true;
     this.pageSize = 10;
-    this.order = 'ORDER_BY_CREATED_DATE_ASC';
+    this.order = 'dateAsc';
     this.deliveryPersons = [];
     this.service
       .search(
@@ -65,7 +64,7 @@ export class SearchPageComponent implements OnInit {
   }
   onSubmit(): void {
     this.service
-      .search(this.search, 0, 10, true, 'ORDER_BY_CREATED_DATE_ASC', '', '')
+      .search(this.search, 0, 10, true, 'dateAsc', '', '')
       .subscribe((items) => {
         this.deliveryPersons = items.data;
         this.nbItems = items.itemCount;
@@ -76,7 +75,7 @@ export class SearchPageComponent implements OnInit {
     this.isAvailable = true;
     this.page = 0;
     this.pageSize = 10;
-    this.order = 'ORDER_BY_CREATED_DATE_ASC';
+    this.order = 'dateAsc';
     this.startDate = null;
     this.endDate = null;
   }
